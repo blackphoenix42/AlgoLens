@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { CATALOG } from "@/engine/registry";
+import { CATALOG } from "@/core/algorithm/registry";
 import AlgoCard, { AlgoItem } from "@/components/home/AlgoCard";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 
@@ -36,7 +36,9 @@ function useSafeCatalog(): Record<string, AlgoItem[]> {
   return useMemo(() => {
     const safe: Record<string, AlgoItem[]> = {};
     for (const [topic, items] of Object.entries(CATALOG ?? {})) {
-      safe[topic] = Array.isArray(items) ? (items as AlgoItem[]) : [];
+      safe[topic] = Array.isArray(items)
+        ? (items as unknown as AlgoItem[])
+        : [];
     }
     return safe;
   }, []);
