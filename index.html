@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Charset first for fast, correct parsing -->
+    <meta charset="UTF-8" />
+
+    <!-- Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Indexing (adjust on non-prod if needed) -->
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+
+    <!-- Primary SEO -->
+    <title>AlgoLens</title>
+    <meta
+      name="description"
+      content="AlgoLens is an interactive algorithm visualizer for sorting, arrays, and graphs. Step-by-step pseudocode, multi-language code (C++/Java/Python/JS), dark mode, export, and an accessible UI for learning and demos."
+    />
+    <meta name="author" content="AlgoLens" />
+
+    <!-- Canonical (update to your production URL) -->
+    <link rel="canonical" href="https://algolens.app/" />
+
+    <!-- Theme + color scheme -->
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: light)"
+      content="#f8fafc"
+    />
+    <meta
+      name="theme-color"
+      media="(prefers-color-scheme: dark)"
+      content="#0b1220"
+    />
+
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="AlgoLens" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="AlgoLens — Algorithm Visualizer & Learning Playground"
+    />
+    <meta
+      property="og:description"
+      content="Interactive visualizations for sorting, arrays, and graphs. Pseudocode, code in multiple languages, and exportable views."
+    />
+    <meta property="og:url" content="https://algolens.app/" />
+    <!-- Use logo for social preview -->
+    <meta
+      property="og:image"
+      content="https://algolens.app/brand/AlgoLens.png"
+    />
+    <meta property="og:image:alt" content="AlgoLens logo" />
+    <meta property="og:image:type" content="image/png" />
+    <!-- Optional explicit dimensions if you know them:
+    <meta property="og:image:width" content="1024" />
+    <meta property="og:image:height" content="1024" />
+    -->
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="AlgoLens — Algorithm Visualizer & Learning Playground"
+    />
+    <meta
+      name="twitter:description"
+      content="Interactive visualizations for algorithms with step-by-step guidance and code."
+    />
+    <meta
+      name="twitter:image"
+      content="https://algolens.app/brand/AlgoLens.png"
+    />
+
+    <!-- Favicons / App Icons (title bar / tab icon) -->
+    <link rel="icon" type="image/png" href="/brand/AlgoLens.png" />
+    <link rel="shortcut icon" type="image/png" href="/brand/AlgoLens.png" />
+    <link rel="apple-touch-icon" href="/brand/AlgoLens.png" />
+    <!-- Optional size-specific variants if you export them:
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/AlgoLens-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/AlgoLens-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/brand/AlgoLens-180.png" />
+    -->
+    <meta name="msapplication-TileColor" content="#0b1220" />
+    <meta name="msapplication-TileImage" content="/brand/AlgoLens.png" />
+    <!-- Optional pinned tab (requires monochrome SVG)
+    <link rel="mask-icon" href="/brand/AlgoLens.svg" color="#0b1220" />
+    -->
+
+    <!-- PWA manifest (optional) -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Optional: preconnect to your font/CDN origins
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    -->
+
+    <!-- No-flash dark mode: run before paint -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("ui-theme");
+          if (
+            t === "dark" ||
+            (!t && window.matchMedia("(prefers-color-scheme: dark)").matches)
+          ) {
+            document.documentElement.classList.add("dark");
+          } else {
+            document.documentElement.classList.remove("dark");
+          }
+        } catch (_) {}
+      })();
+    </script>
+
+    <!-- Structured data with logo -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AlgoLens",
+        "url": "https://algolens.app/",
+        "publisher": {
+          "@type": "Organization",
+          "name": "AlgoLens",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://algolens.app/brand/AlgoLens.png"
+          }
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://algolens.app/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
+  </head>
+
+  <body
+    class="min-h-screen bg-gray-50 text-gray-900 dark:bg-slate-950 dark:text-slate-100"
+  >
+    <div id="root"></div>
+    <noscript>
+      <div
+        style="
+          padding: 1rem;
+          max-width: 720px;
+          margin: 1rem auto;
+          font: 16px/1.6 system-ui, Segoe UI, Roboto;
+        "
+      >
+        AlgoLens is an interactive data structures & algorithm visualizer.
+        Please enable JavaScript to use the app.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

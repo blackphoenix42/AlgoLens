@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Lint (ESLint + Stylelint)
+        run: |
+          npm run lint --if-present || echo "No lint script"
+          npm run stylelint --if-present || echo "No stylelint script"
+
+      - name: Type check
+        run: npm run typecheck --if-present || npx tsc -p tsconfig.json --noEmit
+
+      - name: Unit tests (Vitest)
+        env:
+          CI: true
+        run: npm run test --if-present || npx vitest run --coverage
+
+      - name: Build (Vite)
+        run: npm run build --if-present || npx vite build
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: |
+            coverage/**
+            .vitest/**
+          if-no-files-found: ignore

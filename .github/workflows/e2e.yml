@@ -1,0 +1,53 @@
+name: E2E
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  playwright:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Install Playwright browsers
+        uses: microsoft/playwright-github-action@v1
+
+      - name: Build site
+        run: npm run build --if-present || npx vite build
+
+      - name: Start preview server
+        run: |
+          npx vite preview --port 4173 --strictPort &
+          npx wait-on http://127.0.0.1:4173
+
+      - name: Run Playwright tests
+        env:
+          CI: true
+        run: npx playwright test --reporter=line
+
+      - name: Upload Playwright artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-artifacts
+          path: |
+            playwright-report/**
+            test-results/**
+            **/playwright/.cache/**
+          if-no-files-found: ignore

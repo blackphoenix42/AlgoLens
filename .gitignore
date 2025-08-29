@@ -1,0 +1,42 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+
+# Build output
+dist/
+build/
+out/
+
+# Environment files
+.env
+.env.production
+.env.development
+.env.local
+.env.*.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+
+# Misc
+*.tgz
+*.zip
+*.bak
+*.tmp
+
+# Playwright artifacts (do NOT ignore baseline screenshots)
+playwright-report/
+test-results/
+
+# Keep baseline images in repo:
+!e2e/__screenshots__/**
+
+.npm-cache

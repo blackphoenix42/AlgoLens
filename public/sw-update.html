@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<swupdate app="AlgoLens" schema="1">
+  <!-- Semantic version of the deployed app; bump on each release -->
+  <version>0.1.0</version>
+
+  <!-- ISO 8601 timestamp of this release -->
+  <released>2025-08-29T00:00:00Z</released>
+
+  <!-- Oldest client version allowed before forcing refresh (optional) -->
+  <minClient>0.1.0</minClient>
+
+  <!-- Update UX strategy: prompt | auto | silent -->
+  <strategy>prompt</strategy>
+
+  <message
+    ><![CDATA[ A new version of AlgoLens is available. Reload to get the latest
+    features and fixes? ]]></message
+  >
+
+  <!-- Optional: high-level release notes for in-app display -->
+  <changelog>
+    <item type="feat">Visualizer: timeline scrubbing with previews</item>
+    <item type="fix">Canvas: reduced jank on large N datasets</item>
+    <item type="perf">Bundle split: initial JS down ~18%</item>
+  </changelog>
+
+  <!-- Optional: integrity metadata your SW can use to validate assets -->
+  <assets base="/">
+    <!-- Replace integrity values with real hashes at build time -->
+    <file path="index.html" integrity="sha256-REPLACE_ME" />
+    <file path="assets/index-ABCDE.js" integrity="sha256-REPLACE_ME" />
+    <file path="assets/index-ABCDE.css" integrity="sha256-REPLACE_ME" />
+    <file path="manifest.json" integrity="sha256-REPLACE_ME" />
+    <file path="offline.html" integrity="sha256-REPLACE_ME" />
+  </assets>
+</swupdate>

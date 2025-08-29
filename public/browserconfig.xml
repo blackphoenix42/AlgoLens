@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <!-- Tile images (PNG, transparent background recommended) -->
+      <square70x70logo src="/mstile-70x70.png"/>
+      <square150x150logo src="/mstile-150x150.png"/>
+      <wide310x150logo src="/mstile-310x150.png"/>
+      <square310x310logo src="/mstile-310x310.png"/>
+
+      <!-- Accent color for tile background -->
+      <TileColor>#375DFB</TileColor>
+    </tile>
+
+    <!-- Optional: badge/notification polling (disabled by default) -->
+    <!--
+    <notification>
+      <polling-uri src="https://example.com/tiles/notifications.xml"/>
+      <frequency>30</frequency>
+      <cycle>1</cycle>
+    </notification>
+    -->
+  </msapplication>
+</browserconfig>

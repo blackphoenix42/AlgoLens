@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Offline — AlgoLens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --fg: #eef2ff;
+        --muted: #99a3c2;
+        --card: #121832;
+        --accent: #6c8cff;
+        --border: #263055;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #ffffff;
+          --fg: #0b1020;
+          --muted: #4b5563;
+          --card: #f8fafc;
+          --accent: #375dfb;
+          --border: #e5e7eb;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial,
+          sans-serif;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        width: min(720px, 100%);
+        padding: 28px 28px 22px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+        text-align: left;
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 26px;
+      }
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg);
+        text-decoration: none;
+        cursor: pointer;
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: transparent;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+      .kbd {
+        font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        padding: 2px 6px;
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--fg);
+      }
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .hint {
+        background: rgba(108, 140, 255, 0.12);
+        padding: 8px 10px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" role="main" aria-labelledby="t">
+      <h1 id="t">You’re offline</h1>
+      <p>
+        We couldn’t reach the network. Some features require an internet
+        connection.
+      </p>
+
+      <div class="grid">
+        <div class="hint">
+          <strong>What you can try:</strong>
+          <ul>
+            <li>Check your connection (Wi-Fi/mobile data).</li>
+            <li>
+              Press <span class="kbd">R</span> to retry or use the button below.
+            </li>
+            <li>
+              If you installed the app (PWA), previously viewed pages may still
+              work.
+            </li>
+          </ul>
+        </div>
+        <div class="small">
+          <div>
+            Requested (last known) path:
+            <span id="req" class="mono muted">/</span>
+          </div>
+          <div>Status: <span id="status" class="mono">offline</span></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <button
+          id="retry"
+          class="btn primary"
+          type="button"
+          aria-label="Retry connection"
+        >
+          <svg
+            class="icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-9 9Zm3-1h6m-6 4h9"
+            />
+          </svg>
+          Try Again
+        </button>
+        <a class="btn" href="/" aria-label="Go to Home">
+          <svg
+            class="icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="m3 12 9-8 9 8v8a2 2 0 0 1-2 2h-4v-6H9v6H5a2 2 0 0 1-2-2z"
+            />
+          </svg>
+          Home
+        </a>
+        <a class="btn" href="/visualizer" aria-label="Open Visualizer">
+          <svg
+            class="icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          Visualizer
+        </a>
+      </div>
+
+      <p class="small" id="auto">
+        We’ll auto-retry every 3s and redirect when back online…
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        const $status = document.getElementById("status");
+        const $req = document.getElementById("req");
+        const $auto = document.getElementById("auto");
+        const $retry = document.getElementById("retry");
+
+        // Try to recall the user's intended route (used by 404.html too)
+        const lastPath = sessionStorage.getItem("ALGO_REDIRECT_PATH") || "/";
+        $req.textContent = lastPath;
+
+        function setStatus(txt) {
+          if ($status) $status.textContent = txt;
+        }
+
+        async function ping() {
+          // navigator.onLine is a hint; verify with a real request (HEAD, no-cache)
+          if (navigator.onLine === false) return false;
+          try {
+            const res = await fetch("/manifest.json", {
+              method: "HEAD",
+              cache: "no-store",
+            });
+            return res.ok;
+          } catch {
+            return false;
+          }
+        }
+
+        async function tryReconnect() {
+          setStatus("checking…");
+          const ok = await ping();
+          if (ok) {
+            setStatus("online");
+            // Redirect back to last path (or home) after a brief tick
+            setTimeout(() => {
+              const target =
+                lastPath && lastPath.startsWith("/") ? lastPath : "/";
+              location.replace(target);
+            }, 120);
+            return true;
+          } else {
+            setStatus("offline");
+            return false;
+          }
+        }
+
+        // Manual retry
+        $retry?.addEventListener("click", tryReconnect);
+
+        // Keyboard shortcut: R to retry
+        addEventListener("keydown", (e) => {
+          if (
+            (e.key === "r" || e.key === "R") &&
+            !e.altKey &&
+            !e.ctrlKey &&
+            !e.metaKey
+          ) {
+            tryReconnect();
+          }
+        });
+
+        // Auto-retry every 3s up to ~45s
+        let attempts = 0;
+        const timer = setInterval(async () => {
+          attempts++;
+          if ((await tryReconnect()) || attempts >= 15) {
+            clearInterval(timer);
+            if (attempts >= 15 && $auto) {
+              $auto.textContent =
+                "Auto-retry stopped. Use Try Again to check manually.";
+            }
+          }
+        }, 3000);
+
+        // React immediately to online/offline events
+        addEventListener("online", tryReconnect);
+        addEventListener("offline", () => setStatus("offline"));
+
+        // Initial status
+        setStatus(navigator.onLine ? "checking…" : "offline");
+      })();
+    </script>
+  </body>
+</html>

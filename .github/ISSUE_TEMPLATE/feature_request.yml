@@ -1,0 +1,140 @@
+name: "✨ Feature request"
+description: Propose an idea to improve AlgoLens.
+title: "[feature]: <short summary>"
+labels: ["enhancement", "needs triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea? Tell us the problem first, then your proposed solution.
+
+  - type: checkboxes
+    id: dupes
+    attributes:
+      label: Have you checked for existing requests?
+      options:
+        - label: I searched existing **issues** and **discussions** and this is not a duplicate.
+          required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area / component
+      multiple: true
+      options:
+        - New algorithm
+        - Canvas rendering
+        - Transport controls
+        - Code panel
+        - Pseudocode panel
+        - Dataset generator
+        - Export (image/video)
+        - UI / Layout
+        - Accessibility (a11y)
+        - i18n / localization
+        - Performance
+        - Docs / website
+        - Developer experience (DX)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: change-type
+    attributes:
+      label: Type of change
+      options:
+        - New feature
+        - Improvement / refinement
+        - Performance optimization
+        - Accessibility
+        - Documentation
+        - Tooling / DX
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: What user pain or limitation does this address?
+      placeholder: |
+        When learning selection sort, users struggle to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature. Include API/UX notes if applicable.
+      placeholder: |
+        Add a side-by-side trace view that...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      placeholder: Other approaches you tried or considered.
+    validations:
+      required: false
+
+  - type: textarea
+    id: visuals
+    attributes:
+      label: Visuals / mockups
+      description: Drag-and-drop sketches, screenshots, or links.
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Bullet points that define "done".
+      placeholder: |
+        - Users can...
+        - The code panel shows...
+        - Performance budget: ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      placeholder: What this proposal explicitly will NOT cover.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - Nice to have
+        - Should have
+        - Must have
+    validations:
+      required: true
+
+  - type: dropdown
+    id: breaking
+    attributes:
+      label: Breaking changes?
+      options:
+        - No
+        - Yes (requires migration)
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      placeholder: Links, prior art, related issues/PRs.
+    validations:
+      required: false

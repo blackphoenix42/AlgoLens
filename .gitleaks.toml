@@ -1,0 +1,23 @@
+# Gitleaks config: extend default rules, plus local allowlist
+title = "AlgoLens gitleaks config"
+extends = "github://zricethezav/gitleaks/v8/config/gitleaks.toml"
+
+[allowlist]
+description = "Ignore build outputs, screenshots, and obvious placeholders"
+paths = [
+  '''^dist/''',
+  '''^build/''',
+  '''^e2e/__screenshots__/''',
+  '''^playwright-report/''',
+  '''^test-results/''',
+  '''^public/screenshots/''',
+  '''^public/icons/'''
+]
+regexes = [
+  '''(?i)(dummy|placeholder|example|test)[-_]?(key|token|secret)''',
+  '''(?i)localhost(:\\d+)?''',
+  '''127\\.0\\.0\\.1''',
+  '''^-----BEGIN PUBLIC KEY-----$'''
+]
+# Add commit SHAs here if you must ignore a specific historical commit
+commits = []

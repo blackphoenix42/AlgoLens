@@ -1,0 +1,53 @@
+# ---- Dependencies & package managers (reinstall inside image) ----
+node_modules
+**/node_modules
+.pnp.*
+.pnpm-store/
+.npm/
+.yarn/
+.yarn/cache/
+.turbo/
+.cache/
+.parcel-cache/
+.esbuild/
+.vite/
+
+# ---- Build outputs (don’t send artifacts as context) ----
+dist/
+build/
+.out/
+.next/
+storybook-static/
+
+# ---- Tests & reports ----
+e2e/
+playwright-report/
+test-results/
+coverage/
+*.spec.*
+
+
+# ---- Local env & secrets (keep templates) ----
+.env
+.env.*
+!.env.example
+
+# ---- VCS & CI metadata ----
+.git/
+.gitignore
+.gitattributes
+.github/
+.gitlab/
+.gitlab-ci.yml
+
+# ---- Docs & misc (not needed to build the app) ----
+docs/
+CHANGELOG.md
+
+# ---- OS/editor cruft ----
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo

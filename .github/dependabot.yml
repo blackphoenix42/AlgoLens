@@ -1,0 +1,56 @@
+version: 2
+updates:
+  # 1) NPM (root)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Asia/Kolkata"
+    open-pull-requests-limit: 10
+    labels: ["dependencies", "bot:dependabot"]
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore(dev)"
+      include: "scope"
+    groups:
+      dev-deps:
+        patterns:
+          - "eslint*"
+          - "prettier*"
+          - "vitest*"
+          - "@types/*"
+          - "typescript"
+          - "stylelint*"
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+      vite:
+        patterns:
+          - "vite*"
+          - "@vitejs/*"
+      testing:
+        patterns:
+          - "@playwright/*"
+          - "playwright"
+      sentry:
+        patterns:
+          - "@sentry/*"
+    ignore:
+      # Example: hold major upgrades for React; adjust to taste
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+
+  # 2) GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:15"
+      timezone: "Asia/Kolkata"
+    labels: ["dependencies", "bot:dependabot", "ci"]

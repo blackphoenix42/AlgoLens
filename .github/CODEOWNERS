@@ -1,0 +1,27 @@
+# CODEOWNERS for AlgoLens
+# Order matters—the last match wins.
+
+# Global fallback
+*                                           @blackphoenix42
+
+# App code
+/src/components/                             @blackphoenix42
+/src/pages/                                  @blackphoenix42
+/src/styles/                                 @blackphoenix42
+
+# Visualization & engine
+/src/components/canvas/                      @blackphoenix42
+/src/engine/                                 @blackphoenix42
+/src/workers/                                @blackphoenix42
+/src/lib/                                    @blackphoenix42
+
+# Docs & site content
+/docs/                                       @blackphoenix42
+
+# Tooling / CI
+/scripts/                                    @blackphoenix42
+/.github/workflows/                          @blackphoenix42
+/.github/                                    @blackphoenix42
+
+# Public assets
+/public/                                     @blackphoenix42

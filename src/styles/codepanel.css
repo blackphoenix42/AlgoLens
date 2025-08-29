@@ -1,0 +1,44 @@
+/* Make hljs transparent so the panel controls the bg in both themes */
+.codeblock .hljs {
+  background: transparent !important;
+}
+
+/* Wrapping behavior */
+.code-nowrap .code {
+  white-space: pre;
+}
+.code-wrap .code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* Row + line numbers */
+.code-row {
+  display: grid;
+  grid-template-columns: 3.25ch 1fr;
+  gap: 0.75rem;
+  padding: 0 0.5rem 0 0.5rem;
+  line-height: 1.6;
+}
+.code-row .ln {
+  user-select: none;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  padding-right: 0.25rem;
+  opacity: 0.8;
+}
+.code-row.active {
+  background: rgba(250, 204, 21, 0.18); /* yellow-300/18 */
+  outline: 1px solid rgba(252, 211, 77, 0.8); /* yellow-ish ring */
+}
+.dark .code-row.active {
+  background: rgba(202, 138, 4, 0.22); /* amber-600-ish / 22% */
+  outline: 1px solid rgba(217, 119, 6, 0.6);
+}
+
+/* Ensure long tokens don't overflow */
+.code-row .code {
+  min-width: 0;
+  display: block;
+}

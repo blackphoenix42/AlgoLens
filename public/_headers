@@ -1,0 +1,56 @@
+/*                              
+  # --- Security ---
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin
+  Permissions-Policy: accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), clipboard-read=(), clipboard-write=(self), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=*, geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=()
+  # Enable HSTS only after confirming HTTPS + subdomains:
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+  # --- Content Security Policy (tune if you enable more third-parties) ---
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; img-src 'self' data: blob:; font-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' https://*.sentry.io https://www.google-analytics.com
+
+  # --- Cache (HTML should revalidate) ---
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Long cache for hashed build assets (Vite emits /assets/* with content hashes)
+ /assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts (allow CORS so they load cross-origin if embedded)
+ /*.woff2
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images & media (adjust as you like)
+ /images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# PWA & meta files
+ /manifest.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: public, max-age=86400
+
+ /service-worker.js
+  Cache-Control: no-cache
+
+ /favicon.ico
+  Cache-Control: public, max-age=604800
+
+# Well-known (iOS/Android/app/site/security)
+ /.well-known/apple-app-site-association
+  Content-Type: application/json
+  Cache-Control: public, max-age=86400
+
+ /.well-known/assetlinks.json
+  Content-Type: application/json
+  Cache-Control: public, max-age=86400
+
+ /.well-known/security.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+# Humans (nice-to-have)
+ /humans.txt
+  Content-Type: text/plain; charset=utf-8

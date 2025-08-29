@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================
+   THEME TOKENS (one source)
+   ========================= */
+:root {
+  /* Panels (left/right cards) */
+  --panel-bg: #ffffff;
+  --panel-fg: #0f172a;
+  --panel-muted: #64748b;
+  --panel-border: #e5e7eb;
+
+  --chip-bg: rgba(255, 255, 255, 0.9);
+  --chip-fg: #111827;
+
+  /* Code/pseudocode highlight */
+  --code-active-bg: #fff7cc;
+  --code-active-border: #fde68a;
+
+  /* Canvas (center visualizer) */
+  --canvas-bg: #ffffff;
+  --canvas-fg: #0f172a; /* axis/label text */
+  --canvas-grid: rgba(0, 0, 0, 0.06);
+  --canvas-axis: rgba(0, 0, 0, 0.9);
+  --canvas-border: rgba(0, 0, 0, 0.12);
+  --canvas-chip-bg: rgba(255, 255, 255, 0.9);
+  --canvas-chip-fg: #111827;
+  --canvas-status-bg: rgba(255, 255, 255, 0.85);
+
+  /* Autofill fix */
+  --input-bg: #ffffff;
+  --input-fg: #0f172a;
+}
+
+.dark {
+  --panel-bg: #0b1220;
+  --panel-fg: #e5e7eb;
+  --panel-muted: #cbd5e1;
+  --panel-border: #334155;
+
+  --chip-bg: rgba(2, 6, 23, 0.85);
+  --chip-fg: #e5e7eb;
+
+  --code-active-bg: rgba(250, 204, 21, 0.12);
+  --code-active-border: rgba(250, 204, 21, 0.35);
+
+  --canvas-bg: #0b1220;
+  --canvas-fg: #e5e7eb;
+  --canvas-grid: rgba(255, 255, 255, 0.1);
+  --canvas-axis: rgba(255, 255, 255, 0.9);
+  --canvas-border: rgba(255, 255, 255, 0.14);
+  --canvas-chip-bg: rgba(2, 6, 23, 0.85);
+  --canvas-chip-fg: #e5e7eb;
+  --canvas-status-bg: rgba(2, 6, 23, 0.75);
+
+  --input-bg: #0b1220;
+  --input-fg: #e5e7eb;
+}
+
+/* Chrome/Safari autofill theme parity */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--input-bg) inset !important;
+  -webkit-text-fill-color: var(--input-fg) !important;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+/* =========================
+   GLOBAL HELPERS
+   ========================= */
+.no-select,
+.no-select * {
+  user-select: none;
+}
+
+h1,
+h2,
+h3 {
+  @apply text-gray-800 dark:text-slate-100;
+}
+
+/* Hide scrollbars in the canvas unless truly overflowing */
+.viz-canvas {
+  overflow: hidden;
+}
+
+.viz-surface:fullscreen,
+.viz-shell:fullscreen,
+.viz-surface:-webkit-full-screen,
+.viz-shell:-webkit-full-screen {
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--canvas-bg);
+  color: var(--canvas-fg);
+}
+
+/* Optional: make the fullscreen backdrop match too */
+.viz-surface:fullscreen::backdrop,
+.viz-shell:fullscreen::backdrop,
+.viz-surface:-webkit-full-screen::backdrop,
+.viz-shell:-webkit-full-screen::backdrop {
+  background-color: var(--canvas-bg);
+}
+
+/* =========================
+   CODE BLOCKS (one version)
+   ========================= */
+.code {
+  @apply font-mono text-sm;
+}
+.codeblock {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", monospace;
+  font-size: 13px;
+  color: var(--panel-fg);
+  background: transparent;
+}
+.code-nowrap .code {
+  white-space: pre;
+}
+.code-wrap .code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.code-row {
+  display: grid;
+  grid-template-columns: 3ch 1fr;
+  gap: 0.75rem;
+  padding: 2px 10px;
+}
+.code-row .ln {
+  color: var(--panel-muted);
+  text-align: right;
+}
+.code-row.active {
+  background: var(--code-active-bg);
+  outline: 1px solid var(--code-active-border);
+}
+
+/* =========================
+   PANELS & FORM CONTROLS
+   ========================= */
+.card {
+  @apply rounded-xl border p-3 shadow-sm;
+  background: var(--panel-bg);
+  color: var(--panel-fg);
+  border-color: var(--panel-border);
+}
+
+@layer components {
+  .ui-input {
+    @apply w-full rounded-xl border px-3 py-2 shadow-sm
+           bg-white text-slate-900 border-slate-300 placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+           dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700 dark:placeholder:text-slate-400;
+  }
+  .ui-select {
+    @apply rounded-xl border px-3 py-2
+           bg-white text-slate-900 border-slate-300
+           focus:outline-none focus:ring-2 focus:ring-indigo-500
+           dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700;
+  }
+  .ui-textarea {
+    @apply ui-input min-h-[92px];
+  }
+
+  /* Icon buttons (copy/paste etc.) */
+  .icon-btn {
+    @apply inline-flex items-center justify-center rounded border shadow-sm
+           w-8 h-8 text-slate-700 bg-white hover:bg-slate-50 border-slate-300;
+  }
+  .dark .icon-btn {
+    @apply text-slate-100 bg-slate-900 hover:bg-slate-800 border-slate-700;
+  }
+
+  /* Segmented choices (Bars/Dots/Table, Coloring modes) */
+  .seg-btn {
+    @apply px-2.5 py-1 rounded-lg border text-sm transition-colors;
+    background: var(--panel-bg);
+    color: var(--panel-fg);
+    border-color: var(--panel-border);
+  }
+  .seg-btn.on {
+    @apply font-semibold;
+    background: #eef2ff;
+    color: #3730a3;
+    border-color: #c7d2fe;
+  }
+  .dark .seg-btn.on {
+    background: rgba(99, 102, 241, 0.15);
+    color: #c7d2fe;
+    border-color: rgba(99, 102, 241, 0.35);
+  }
+}
+
+/* Resizers */
+.resizable-y {
+  resize: vertical;
+  overflow: auto;
+  min-height: 120px;
+  max-height: 50vh;
+}
+.resizable-x {
+  resize: horizontal;
+  overflow: auto;
+  min-width: 280px;
+}
+
+/* Chips/badges inside panels */
+.chip {
+  background: var(--chip-bg);
+  color: var(--chip-fg);
+  border-color: var(--panel-border);
+}
+/* styles/typography-dark.css */
+
+/* Stronger defaults in dark mode */
+.dark .card {
+  color: #e5e7eb;
+} /* slate-200-ish */
+.dark .panel-title {
+  color: #f8fafc;
+} /* slate-50 */
+.dark .panel-muted {
+  color: #cbd5e1;
+} /* slate-300 */
+
+/* Modal content helpers (applies to children placed inside the modal) */
+.dark .modal-body h1,
+.dark .modal-body h2,
+.dark .modal-body h3 {
+  color: #f1f5f9;
+} /* slate-100/200 edge */
+.dark .modal-body p,
+.dark .modal-body li,
+.dark .modal-body span {
+  color: #e5e7eb;
+} /* slate-200 */
+.dark .modal-body small {
+  color: #cbd5e1;
+} /* slate-300 */
+.dark .modal-body a {
+  color: #93c5fd;
+} /* sky-300 */
+.dark .modal-body code {
+  color: #fde68a;
+} /* amber-200 for inline code */
+/* Markdown tweaks */
+.markdown a {
+  text-decoration: underline;
+}
+.dark .markdown a {
+  color: #93c5fd;
+} /* sky-300 */
+.markdown .katex {
+  font-size: 1em;
+} /* keep math inline sized */
+
+/* =========================
+   CANVAS SKIN
+   ========================= */
+/* Applied by the component inline, these tokens ensure dark/light parity: */
+html,
+body,
+#root {
+  height: 100dvh;
+  overflow: hidden; /* all scrolling happens inside panels */
+}

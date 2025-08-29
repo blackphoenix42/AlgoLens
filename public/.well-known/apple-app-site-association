@@ -1,0 +1,38 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": [
+          "YOUR_TEAM_ID.com.algolens.app"
+        ],
+        "components": [
+          {
+            "/": "/",
+            "comment": "Home route handled by app"
+          },
+          {
+            "/": "/visualizer/*",
+            "comment": "Visualizer deep links"
+          },
+          {
+            "/": "/docs/*"
+          },
+          {
+            "exclude": true,
+            "/": "/api/*"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "YOUR_TEAM_ID.com.algolens.app"
+    ]
+  },
+  "activitycontinuation": {
+    "apps": [
+      "YOUR_TEAM_ID.com.algolens.app"
+    ]
+  }
+}

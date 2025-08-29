@@ -1,0 +1,8 @@
+# Single Page App fallback — let the client router handle routes
+/*    /index.html   200
+
+# Optional: force canonical host (uncomment & replace)
+# https://www.example.com/*  https://example.com/:splat   301!
+
+# Optional: API proxy example (uncomment & edit)
+# /api/*   https://api.example.com/:splat   200

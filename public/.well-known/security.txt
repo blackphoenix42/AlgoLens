@@ -1,0 +1,9 @@
+Contact: mailto:security@algolens.app
+Contact: https://algolens.app/security
+Expires: 2026-08-28T00:00:00Z
+Policy: https://algolens.app/security-policy
+Acknowledgments: https://algolens.app/hall-of-fame
+Encryption: https://algolens.app/pgp.txt
+Preferred-Languages: en, hi
+Canonical: https://algolens.app/.well-known/security.txt
+Hiring: https://algolens.app/careers

@@ -1,0 +1,33 @@
+# percy.yml
+# Percy configuration (v2). Works with @percy/cli + Playwright or static snapshots.
+version: 2
+
+# Global snapshot defaults
+snapshot:
+  # Render widths (mobile / tablet / desktop)
+  widths: [360, 768, 1280]
+  # Minimum doc height to avoid clipped pages
+  min-height: 800
+  # Keep JS on (needed for SPA routing), but neutralize animations via percy-css
+  enable-javascript: true
+  # CSS injected before capture to stabilize pixels (no animations/caret/timestamps)
+  percy-css: |
+    * { animation-duration: 0s !important; transition-duration: 0s !important; caret-color: transparent !important; }
+    [data-dynamic], time, .timestamp { visibility: hidden !important; }
+    [data-testid="random-seed"] { visibility: hidden !important; }
+
+# How Percy discovers assets/requests when loading pages
+discovery:
+  allowed-hostnames:
+    - localhost
+    - 127.0.0.1
+  # Small idle timeout so SPAs settle before capture
+  network-idle-timeout: 100
+  disable-cache: true
+  request-headers:
+    Accept-Language: en-IN
+
+# For static-site snapshots (optional): point to your preview base URL
+# (Percy CLI will override with --base-url if you pass it)
+static:
+  base-url: "http://127.0.0.1:4173"

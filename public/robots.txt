@@ -1,0 +1,23 @@
+# robots.txt — AlgoLens
+
+# Default: allow crawling of the SPA
+User-agent: *
+Allow: /
+
+# Keep internal/test/build paths out of search
+Disallow: /api/
+Disallow: /admin/
+Disallow: /e2e/
+Disallow: /playwright-report/
+Disallow: /test-results/
+Disallow: /node_modules/
+Disallow: /__/
+
+# Avoid indexing URLs with tracking or transient params
+# (Google supports * and $ wildcards)
+Disallow: /*?*utm_=
+Disallow: /*?*session=
+Disallow: /*?*source=pwa
+
+# Sitemap (update to your canonical domain if different)
+Sitemap: https://algolens.app/sitemap.xml

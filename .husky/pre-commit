@@ -1,0 +1,40 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+set -e
+
+echo "🔎 Pre-commit checks…"
+
+# Prefer lint-staged if available
+if command -v npx >/dev/null 2>&1 && npx --yes --no-install lint-staged --version >/dev/null 2>&1; then
+  npx --yes --no-install lint-staged
+else
+  # Fallback: run Prettier + ESLint over staged files only
+  STAGED="$(git diff --cached --name-only --diff-filter=ACMR | tr '\n' ' ')"
+  if [ -n "$STAGED" ]; then
+    if npx --yes --no-install prettier --version >/dev/null 2>&1; then
+      echo "→ Prettier (write)"
+      npx --yes --no-install prettier --write --log-level warn -- $STAGED || true
+      git add $STAGED || true
+    fi
+    if npx --yes --no-install eslint --version >/dev/null 2>&1; then
+      echo "→ ESLint (fix)"
+      # Only pass likely JS/TS files to ESLint
+      ESLINT_FILES=$(echo "$STAGED" | tr ' ' '\n' | grep -E "\.(ts|tsx|js|jsx)$" || true)
+      if [ -n "$ESLINT_FILES" ]; then
+        npx --yes --no-install eslint --max-warnings=0 --fix $ESLINT_FILES
+        git add $ESLINT_FILES || true
+      fi
+    fi
+  fi
+fi
+
+# Block focused tests from being committed
+FOCUSED=$(git diff --cached -U0 | grep -E "^\+.*\.(only|skip)\(|^\+.*(it|test|describe)\.only" || true)
+if [ -n "$FOCUSED" ]; then
+  echo "⛔ Found focused/skipped tests in staged changes:"
+  echo "$FOCUSED" | sed 's/^/   /'
+  echo "Remove .only/.skip before committing."
+  exit 1
+fi
+
+echo "✅ Pre-commit passed."

@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Ayush Yadav",
+    "roles": ["maintainer", "core"],
+    "email": "ayush@example.com",
+    "github": "blackphoenix42",
+    "website": "https://github.com/blackphoenix42",
+    "since": "2025-08-01"
+  },
+  {
+    "name": "AlgoLens Maintainers",
+    "roles": ["maintainers"],
+    "github": "Algolens",
+    "note": "Community contributions are credited via Git history."
+  }
+]

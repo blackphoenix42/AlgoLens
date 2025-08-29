@@ -1,0 +1,36 @@
+# Normalize line endings & mark text files
+* text=auto eol=lf
+
+# Shell/Windows scripts
+*.sh   text eol=lf
+*.bat  text eol=crlf
+*.ps1  text eol=crlf
+
+# Treat these as text
+*.{js,ts,tsx,jsx,css,scss,html,json,yml,yaml,md,svg} text eol=lf
+
+# Binary assets (no diff)
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.avif binary
+*.woff  binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+
+# Nicer diffs
+*.md  diff=markdown
+*.ts  diff=typescript
+*.tsx diff=typescript
+*.js  diff=javascript
+
+# GitHub linguist hints
+dist/*                       linguist-generated=true
+e2e/__screenshots__/*        linguist-generated=true
+
+# Exclude from `git archive`
+.github/ export-ignore
+e2e/     export-ignore

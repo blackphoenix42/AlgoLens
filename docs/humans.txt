@@ -1,0 +1,48 @@
+/* TEAM */
+Project: AlgoLens – Interactive Algorithm Visualizer
+URL: https://algolens.app
+Twitter/X: @algolens (placeholder)
+GitHub: https://github.com/Algolens/AlgoLens
+
+Maintainers:
+- Ayush Yadav — Software Engineer (C++/Python, systems & perf)
+  GitHub: https://github.com/ayushyadav
+- AlgoLens Maintainers — Core team & community
+  GitHub: https://github.com/Algolens
+
+Contributors:
+- See AUTHORS: /authors.json
+- And Git history on GitHub
+
+Contact:
+- General: hello@algolens.app
+- Security: security@algolens.app (see /.well-known/security.txt)
+- Privacy: privacy@algolens.app
+
+Location: Bengaluru, India (IST)
+
+/* THANKS */
+Built with: React, Vite, TypeScript, Tailwind CSS, Vitest, Playwright
+Infra/Tools: GitHub Actions, Changesets, Sentry
+Icons: lucide
+Fonts: Inter, JetBrains Mono
+Special thanks: Open-source community ❤️
+
+/* SITE */
+Standards: HTML5, CSS3, ES2023
+Language: en (internationalization planned)
+Do Not Track: respected (analytics/error monitoring are opt-in)
+Cookies: see /cookie_policy.md
+Code of Conduct: /codeofconduct.md
+Contributing Guide: /contributing.md
+Architecture: /architecture.md
+Design Guide: /design_guide.md
+Changelog: /changelog.md
+Security: /.well-known/security.txt
+
+/* LEGAL */
+License: (add your license, e.g., MIT)
+Trademarks: All product names and logos are property of their respective owners.
+
+/* META */
+Last updated: 2025-08-29 (IST)

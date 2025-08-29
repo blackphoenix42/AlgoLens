@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>404 — AlgoLens</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="color-scheme" content="light dark" />
+    <style>
+      :root {
+        --bg: #0b1020;
+        --fg: #eef2ff;
+        --muted: #99a3c2;
+        --card: #121832;
+        --accent: #6c8cff;
+        --border: #263055;
+      }
+      @media (prefers-color-scheme: light) {
+        :root {
+          --bg: #ffffff;
+          --fg: #0b1020;
+          --muted: #4b5563;
+          --card: #f8fafc;
+          --accent: #375dfb;
+          --border: #e5e7eb;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--fg);
+        font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial,
+          sans-serif;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        width: min(720px, 100%);
+        padding: 28px 28px 22px;
+        border: 1px solid var(--border);
+        background: var(--card);
+        border-radius: 16px;
+        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 28px;
+      }
+      p {
+        margin: 0 0 14px;
+        color: var(--muted);
+      }
+      code {
+        background: rgba(108, 140, 255, 0.12);
+        padding: 2px 6px;
+        border-radius: 8px;
+        color: var(--fg);
+      }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg);
+        text-decoration: none;
+      }
+      .btn.primary {
+        background: var(--accent);
+        color: #fff;
+        border-color: transparent;
+      }
+      .small {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+      .kbd {
+        font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        padding: 2px 6px;
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 6px;
+        background: transparent;
+        color: var(--fg);
+      }
+      .path {
+        word-break: break-all;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" role="main" aria-labelledby="t">
+      <h1 id="t">404 — Page not found</h1>
+      <p>The page you requested doesn’t exist here.</p>
+      <p class="path">Requested URL: <code id="req"></code></p>
+
+      <div class="row">
+        <a class="btn primary" href="/">Go to Home</a>
+        <a class="btn" href="/visualizer">Open Visualizer</a>
+      </div>
+
+      <p class="small" id="auto">
+        Trying to take you back to the app… (or press
+        <span class="kbd">H</span> for Home)
+      </p>
+    </main>
+
+    <script>
+      (function () {
+        // Show the requested path
+        var $req = document.getElementById("req");
+        if ($req)
+          $req.textContent =
+            location.pathname + location.search + location.hash;
+
+        // If this is an SPA deep-link on static hosting (e.g., GitHub Pages),
+        // gently redirect to "/" after a short delay (while preserving the original
+        // path in sessionStorage so the app can optionally read and route).
+        var looksLikeAsset = /\.[a-z0-9]{2,6}$/i.test(location.pathname);
+        var skip = new URLSearchParams(location.search).has("no-redirect");
+        if (!looksLikeAsset && !skip && location.pathname !== "/") {
+          try {
+            sessionStorage.setItem(
+              "ALGO_REDIRECT_PATH",
+              location.pathname + location.search + location.hash
+            );
+          } catch (e) {}
+          setTimeout(function () {
+            location.replace("/");
+          }, 1500);
+        } else {
+          var auto = document.getElementById("auto");
+          if (auto) auto.textContent = "Use the buttons above to navigate.";
+        }
+
+        // Keyboard shortcut: H → Home
+        addEventListener("keydown", function (e) {
+          if (
+            (e.key === "h" || e.key === "H") &&
+            !e.altKey &&
+            !e.metaKey &&
+            !e.ctrlKey
+          ) {
+            location.href = "/";
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

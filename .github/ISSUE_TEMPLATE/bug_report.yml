@@ -1,0 +1,180 @@
+name: "🐞 Bug report"
+description: Report a reproducible problem in AlgoLens.
+title: "[bug]: <short summary>"
+labels: ["bug", "needs triage"]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! Please provide a minimal, reproducible example.
+
+  - type: checkboxes
+    id: duplicates
+    attributes:
+      label: Have you checked for existing issues?
+      options:
+        - label: I searched existing **issues** and **discussions** and this is not a duplicate.
+          required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      multiple: true
+      options:
+        - UI / Layout
+        - Canvas rendering
+        - Transport controls (play/pause/step)
+        - Code panel / syntax highlight
+        - Pseudocode panel
+        - Dataset generator
+        - Algorithms / correctness
+        - Export (image/video)
+        - i18n / localization
+        - Accessibility (a11y)
+        - Performance
+        - Build / CI
+        - Docs / website
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: repro-link
+    attributes:
+      label: Minimal reproduction link (if available)
+      description: GitHub repo / StackBlitz / CodeSandbox that reproduces the issue.
+      placeholder: https://github.com/blackphoenix42/AlgoLens
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps help a lot.
+      placeholder: |
+        1. Go to ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / recordings
+      description: Drag-and-drop images or videos here.
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console logs & stack traces
+      description: |
+        Please paste relevant logs. Use triple backticks for formatting.
+      render: text
+      placeholder: |
+        ```text
+        error stack here
+        ```
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Commit SHA / version (if known)
+      placeholder: e.g., 1.2.3 or 8f3a1c2
+    validations:
+      required: false
+
+  - type: dropdown
+    id: app-mode
+    attributes:
+      label: Where did this happen?
+      options:
+        - Production site
+        - Local development
+        - Preview build / PR
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Android
+        - iOS
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device
+    attributes:
+      label: Device
+      options:
+        - Desktop / Laptop
+        - Mobile
+        - Tablet
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: How impactful is this bug?
+      options:
+        - Low (minor inconvenience)
+        - Medium (workaround exists)
+        - High (blocks key flow)
+        - Critical (crash/data-loss)
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      placeholder: Any other details that could help.
+    validations:
+      required: false

@@ -1,0 +1,28 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "runners": ["axe"],
+    "timeout": 30000,
+    "includeNotices": true,
+    "includeWarnings": true,
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox", "--disable-dev-shm-usage"]
+    }
+  },
+  "threshold": 0,
+  "concurrency": 4,
+  "urls": [
+    {
+      "url": "http://127.0.0.1:4173/",
+      "actions": ["set viewport 1280x800", "wait for element main", "wait 500"]
+    },
+    {
+      "url": "http://127.0.0.1:4173/visualizer?algo=bubble&n=64&seed=42&speed=1",
+      "actions": [
+        "set viewport 1280x800",
+        "wait for element [data-testid='array-canvas'], canvas",
+        "wait 800"
+      ]
+    }
+  ]
+}
