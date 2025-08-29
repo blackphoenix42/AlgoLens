@@ -157,7 +157,7 @@ h3 {
 @layer components {
   .ui-input {
     @apply w-full rounded-xl border px-3 py-2 shadow-sm
-           bg-white text-slate-900 border-slate-300 placeholder:text-slate-500
+           bg-white text-slate-900 border-slate-300 placeholder:text-slate-600
            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
            dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700 dark:placeholder:text-slate-400;
   }
@@ -170,7 +170,7 @@ h3 {
   /* NOTE: can't @apply .ui-input; @apply only accepts utilities */
   .ui-textarea {
     @apply w-full rounded-xl border px-3 py-2 shadow-sm
-           bg-white text-slate-900 border-slate-300 placeholder:text-slate-500
+           bg-white text-slate-900 border-slate-300 placeholder:text-slate-600
            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
            dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700 dark:placeholder:text-slate-400
            min-h-[92px];

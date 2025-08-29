@@ -278,7 +278,7 @@ export default function CodePanel({
                     codeLine === i + 1 ? "active" : ""
                   } text-slate-900 dark:text-slate-200`}
                 >
-                  <span className="ln text-slate-400 dark:text-slate-500">
+                  <span className="ln text-slate-600 dark:text-slate-400">
                     {i + 1}
                   </span>
                   <span

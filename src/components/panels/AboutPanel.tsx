@@ -75,7 +75,7 @@ export default function AboutPanel({ meta }: { meta: AlgoMeta }) {
             <table className="w-full text-sm border-collapse">
               <tbody>
                 <tr>
-                  <td className="text-slate-500 dark:text-slate-400 pr-4">
+                  <td className="text-slate-700 dark:text-slate-300 pr-4">
                     Best time
                   </td>
                   <td className="text-slate-900 dark:text-slate-100">
@@ -83,7 +83,7 @@ export default function AboutPanel({ meta }: { meta: AlgoMeta }) {
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-slate-500 dark:text-slate-400 pr-4">
+                  <td className="text-slate-700 dark:text-slate-300 pr-4">
                     Average time
                   </td>
                   <td className="text-slate-900 dark:text-slate-100">
@@ -91,7 +91,7 @@ export default function AboutPanel({ meta }: { meta: AlgoMeta }) {
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-slate-500 dark:text-slate-400 pr-4">
+                  <td className="text-slate-700 dark:text-slate-300 pr-4">
                     Worst time
                   </td>
                   <td className="text-slate-900 dark:text-slate-100">
@@ -99,7 +99,7 @@ export default function AboutPanel({ meta }: { meta: AlgoMeta }) {
                   </td>
                 </tr>
                 <tr>
-                  <td className="text-slate-500 dark:text-slate-400 pr-4">
+                  <td className="text-slate-700 dark:text-slate-300 pr-4">
                     Space
                   </td>
                   <td className="text-slate-900 dark:text-slate-100">
@@ -108,7 +108,7 @@ export default function AboutPanel({ meta }: { meta: AlgoMeta }) {
                 </tr>
                 {typeof c.stable === "boolean" && (
                   <tr>
-                    <td className="text-slate-500 dark:text-slate-400 pr-4">
+                    <td className="text-slate-700 dark:text-slate-300 pr-4">
                       Stable
                     </td>
                     <td className="text-slate-900 dark:text-slate-100">
@@ -118,7 +118,7 @@ export default function AboutPanel({ meta }: { meta: AlgoMeta }) {
                 )}
                 {typeof c.inPlace === "boolean" && (
                   <tr>
-                    <td className="text-slate-500 dark:text-slate-400 pr-4">
+                    <td className="text-slate-700 dark:text-slate-300 pr-4">
                       In-place
                     </td>
                     <td className="text-slate-900 dark:text-slate-100">
@@ -184,7 +184,7 @@ function AboutPanelContent({ meta }: { meta: AlgoMeta }) {
         <table className="w-full text-sm border-collapse">
           <tbody>
             <tr>
-              <td className="text-slate-500 dark:text-slate-400 pr-4">
+              <td className="text-slate-700 dark:text-slate-300 pr-4">
                 Best time
               </td>
               <td className="text-slate-900 dark:text-slate-100">
@@ -192,7 +192,7 @@ function AboutPanelContent({ meta }: { meta: AlgoMeta }) {
               </td>
             </tr>
             <tr>
-              <td className="text-slate-500 dark:text-slate-400 pr-4">
+              <td className="text-slate-700 dark:text-slate-300 pr-4">
                 Average time
               </td>
               <td className="text-slate-900 dark:text-slate-100">
@@ -200,7 +200,7 @@ function AboutPanelContent({ meta }: { meta: AlgoMeta }) {
               </td>
             </tr>
             <tr>
-              <td className="text-slate-500 dark:text-slate-400 pr-4">
+              <td className="text-slate-700 dark:text-slate-300 pr-4">
                 Worst time
               </td>
               <td className="text-slate-900 dark:text-slate-100">
@@ -208,12 +208,12 @@ function AboutPanelContent({ meta }: { meta: AlgoMeta }) {
               </td>
             </tr>
             <tr>
-              <td className="text-slate-500 dark:text-slate-400 pr-4">Space</td>
+              <td className="text-slate-700 dark:text-slate-300 pr-4">Space</td>
               <td className="text-slate-900 dark:text-slate-100">{c.space}</td>
             </tr>
             {typeof c.stable === "boolean" && (
               <tr>
-                <td className="text-slate-500 dark:text-slate-400 pr-4">
+                <td className="text-slate-700 dark:text-slate-300 pr-4">
                   Stable
                 </td>
                 <td className="text-slate-900 dark:text-slate-100">
@@ -223,7 +223,7 @@ function AboutPanelContent({ meta }: { meta: AlgoMeta }) {
             )}
             {typeof c.inPlace === "boolean" && (
               <tr>
-                <td className="text-slate-500 dark:text-slate-400 pr-4">
+                <td className="text-slate-700 dark:text-slate-300 pr-4">
                   In-place
                 </td>
                 <td className="text-slate-900 dark:text-slate-100">
