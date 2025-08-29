@@ -20,7 +20,7 @@ export default function Markdown({ children }: { children: string }) {
           p: (p) => <p className="leading-7 mb-2" {...p} />,
           ul: (p) => <ul className="list-disc pl-5 space-y-1 mb-2" {...p} />,
           ol: (p) => <ol className="list-decimal pl-5 space-y-1 mb-2" {...p} />,
-          code: ({ inline, ...p }) =>
+          code: ({ inline, ...p }: { inline?: boolean } & React.HTMLAttributes<HTMLElement>) =>
             inline ? (
               <code
                 className="px-1 rounded bg-slate-100 dark:bg-slate-800"

@@ -1,10 +1,9 @@
 import type { Algorithm } from "@/engine/types";
 
-// Highlights keys match your colors: base, compared, swapped, pivot, highlighted
 // pcLine is 1-based, mapped to registry.codeLineMap for each language
 
-export const run: Algorithm = function* (input: number[]) {
-  const a = input.slice();
+export const run: Algorithm = function* (input: unknown) {
+  const a = (input as number[]).slice();
   const n = a.length;
 
   // Optional: initial frame
@@ -18,7 +17,7 @@ export const run: Algorithm = function* (input: number[]) {
       array: a.slice(),
       pcLine: 1,
       explain: `Pass ${i + 1}/${n - 1}: find the minimum in [${i}..${n - 1}]`,
-      highlights: { highlighted: [i], pivot: [m] },
+      highlights: { indices: [i], pivot: m },
     };
 
     for (let j = i + 1; j < n; j++) {
@@ -27,7 +26,7 @@ export const run: Algorithm = function* (input: number[]) {
         array: a.slice(),
         pcLine: 3,
         explain: `Compare a[${j}] (${a[j]}) with current min a[${m}] (${a[m]})`,
-        highlights: { highlighted: [i], pivot: [m], compared: [j] },
+        highlights: { indices: [i], pivot: m, compared: [j, m] },
       };
 
       if (a[j] < a[m]) {
@@ -37,7 +36,7 @@ export const run: Algorithm = function* (input: number[]) {
           array: a.slice(),
           pcLine: 4,
           explain: `New minimum at index ${m} (value ${a[m]})`,
-          highlights: { highlighted: [i], pivot: [m] },
+          highlights: { indices: [i], pivot: m },
         };
       }
     }
@@ -57,7 +56,7 @@ export const run: Algorithm = function* (input: number[]) {
         array: a.slice(),
         pcLine: 5,
         explain: `Position ${i} already holds the minimum; no swap.`,
-        highlights: { highlighted: [i], pivot: [m] },
+        highlights: { indices: [i], pivot: m },
       };
     }
   }
