@@ -16,10 +16,10 @@ function DifficultyPill({ v }: { v?: AlgoItem["difficulty"] }) {
     typeof v === "number" ? (v <= 2 ? "Easy" : v <= 3 ? "Medium" : "Hard") : v;
   const styles =
     label === "Easy"
-      ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300"
+      ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200"
       : label === "Medium"
-      ? "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300"
-      : "bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300";
+      ? "bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200"
+      : "bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-200";
   return (
     <span className={`px-2 py-0.5 rounded text-[11px] font-semibold ${styles}`}>
       {label}
@@ -112,7 +112,7 @@ export default function AlgoCard({
         {/* related shortcuts */}
         {item.related?.length ? (
           <div className="mt-3">
-            <div className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-1">
+            <div className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 mb-1">
               Related
             </div>
             <div className="flex flex-wrap gap-1">

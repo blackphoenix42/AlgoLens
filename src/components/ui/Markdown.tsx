@@ -12,10 +12,21 @@ export default function Markdown({ children }: { children: string }) {
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[rehypeKatex]}
         components={{
-          h1: (p) => <h1 className="text-xl font-bold mt-2 mb-2" {...p} />,
-          h2: (p) => <h2 className="text-lg font-semibold mt-3 mb-2" {...p} />,
+          // Shift markdown headings down one level so pages retain a single
+          // top-level <h1> and maintain proper heading order for a11y.
+          h1: (p) => <h2 className="text-xl font-bold mt-2 mb-2" {...p} />,
+          h2: (p) => <h3 className="text-lg font-semibold mt-3 mb-2" {...p} />,
           h3: (p) => (
-            <h3 className="text-base font-semibold mt-3 mb-2" {...p} />
+            <h4 className="text-base font-semibold mt-3 mb-2" {...p} />
+          ),
+          h4: (p) => (
+            <h5 className="text-base font-semibold mt-3 mb-2" {...p} />
+          ),
+          h5: (p) => (
+            <h6 className="text-sm font-semibold mt-3 mb-2" {...p} />
+          ),
+          h6: (p) => (
+            <h6 className="text-sm font-semibold mt-3 mb-2" {...p} />
           ),
           p: (p) => <p className="leading-7 mb-2" {...p} />,
           ul: (p) => <ul className="list-disc pl-5 space-y-1 mb-2" {...p} />,

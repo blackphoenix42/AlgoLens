@@ -291,7 +291,7 @@ export default function HomePage() {
       {tagUniverse.length ? (
         <div className="px-4 py-3 border-b bg-white/70 dark:bg-slate-900/60 dark:border-slate-800">
           <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-2">
-            <div className="text-xs font-semibold text-slate-500 dark:text-slate-400 mr-2">
+            <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 mr-2">
               Tags:
             </div>
             {tagUniverse.map((t) => {
