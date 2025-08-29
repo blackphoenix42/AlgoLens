@@ -33,9 +33,9 @@ React App (App shell, routing, theme)
 
 - `src/pages/`
   - **HomePage / VisualizerPage**: route composition. Visualizer wires panels + canvas + runner.
-- `src/components/canvas/`
+- `src/features/sorting/ui/`
   - **ArrayCanvas**: imperative canvas renderer, exposes a handle for playhead-controlled redraws.
-  - **CanvasToolbar**: zoom/speed/grid toggles, export shortcuts.
+  - **Toolbar**: zoom/speed/grid toggles, export shortcuts.
 - `src/components/controls/`
   - **Transport**: play/pause/step/seek, speed.
   - **DatasetPanel**: dataset generators (random, gaussian, reversed, few-unique, custom).
@@ -44,9 +44,10 @@ React App (App shell, routing, theme)
   - **CodePanel**: shows multi-language code; highlights current line.
   - **AboutPanel**: algorithm notes/complexity.
   - **ExportPanel**: image/video export (uses `lib/exporter`).
-- `src/engine/`
-  - **registry.ts** (`findAlgo`): index of algorithms and their metadata.
-  - **runner.ts** (`useRunner`): playhead state machine; emits frames for the canvas to draw.
+- `src/core/algorithm/`
+  - **registry.ts** (`find`/`register`): index of algorithms and their metadata.
+- `src/core/runner/`
+  - **player.ts** (`usePlayer`/`Player`): playhead state machine; emits frames for the canvas to draw.
 - `src/lib/`
   - **arrays.ts**: dataset factories.
   - **exporter.ts**: typed draw options (`DrawOptions`) + image/video plumbing.
@@ -77,7 +78,7 @@ export interface Algorithm<TState, TInput> {
 }
 ```
 
-Register in `engine/registry.ts` and wire in `VisualizerPage`.
+Register in `core/algorithm/registry.ts` and wire in `VisualizerPage`.
 
 ## Runner Loop (simplified)
 
@@ -108,4 +109,4 @@ Register in `engine/registry.ts` and wire in `VisualizerPage`.
 ## Extensibility
 
 - New algorithm = new module implementing the contract + registry entry + code/pseudocode snippets.
-- Canvas variants (graphs, trees) live under `components/canvas/…`.
+- Canvas variants (graphs, trees) live under `features/*/ui/…`.

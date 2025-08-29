@@ -85,7 +85,7 @@ export default function AlgoCard({
       <div className="p-4">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-base font-semibold leading-tight text-slate-900 dark:text-slate-100">
-            <Link to={`/viz/${topic}/${item.slug}`} className="hover:underline">
+            <Link to={`/${topic}/${item.slug}`} className="hover:underline">
               {item.title}
             </Link>
           </h3>
@@ -122,7 +122,7 @@ export default function AlgoCard({
                 return (
                   <Link
                     key={slug}
-                    to={`/viz/${rel.topic}/${slug}`}
+                    to={`/${rel.topic}/${slug}`}
                     className="px-2 py-0.5 rounded text-xs bg-indigo-50 text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-900/40 dark:text-indigo-300"
                   >
                     {rel.title}
