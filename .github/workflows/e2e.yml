@@ -34,7 +34,7 @@ jobs:
       - name: Start preview server
         run: |
           npx vite preview --port 4173 --strictPort &
-          npx wait-on http://127.0.0.1:4173
+          npx -y wait-on http://127.0.0.1:4173
 
       - name: Run Playwright tests
         env:
