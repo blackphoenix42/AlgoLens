@@ -27,11 +27,7 @@ jobs:
       - name: Run Lighthouse CI
         uses: treosh/lighthouse-ci-action@v12
         with:
-          # Option 1: run against local server
-          configPath: ''
+          configPath: lhci/lighthouserc.json
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
-          startServerCommand: "npx http-server ./dist -p 4173 -s"
-          urls: |
-            http://127.0.0.1:4173/
