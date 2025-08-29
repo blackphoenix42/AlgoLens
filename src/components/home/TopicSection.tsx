@@ -1,6 +1,6 @@
 import AlgoTile from "./AlgoCard";
 import TopicIcon from "./TopicIcon";
-import type { AlgoMeta } from "@/engine/registry";
+import type { AlgoMeta } from "@/algorithms/types";
 
 type Props = { topic: string; items: AlgoMeta[] };
 
