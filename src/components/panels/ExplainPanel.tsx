@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { AlgoMeta } from '@/engine/registry'
+import type { AlgoMeta } from '@/algorithms/types'
 import Modal from '@/components/ui/Modal'
 import ExpandIcon from '@/components/ui/ExpandIcon'
 
