@@ -6,25 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="color-scheme" content="light dark" />
+    <meta name="robots" content="noindex" />
     <style>
+      /* Light is the default; dark overrides live below */
       :root {
+        --bg: #ffffff;
+        --fg: #0b1020;
+        --muted: #4b5563;
+        --card: #f8fafc;
+        --accent: #3b82f6;
+        --border: #e5e7eb;
+        --shadow: 0 10px 30px rgba(2, 6, 23, 0.07);
+        --ring: 0 0 0 3px rgba(59, 130, 246, 0.25);
+        --btn-bg: rgba(255, 255, 255, 0.8);
+        --btn-bg-hover: #ffffff;
+        --btn-border: #e5e7eb;
+      }
+      /* Dark theme (applies if html has data-theme="dark" or class="dark") */
+      [data-theme="dark"],
+      html.dark {
         --bg: #0b1020;
-        --fg: #eef2ff;
-        --muted: #99a3c2;
-        --card: #121832;
+        --fg: #eaf0ff;
+        --muted: #9aa5c2;
+        --card: #0f1733;
         --accent: #6c8cff;
-        --border: #263055;
+        --border: #253059;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        --ring: 0 0 0 3px rgba(108, 140, 255, 0.35);
+        --btn-bg: rgba(30, 41, 59, 0.8);
+        --btn-bg-hover: rgba(30, 41, 59, 1);
+        --btn-border: #334155;
       }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --bg: #ffffff;
-          --fg: #0b1020;
-          --muted: #4b5563;
-          --card: #f8fafc;
-          --accent: #375dfb;
-          --border: #e5e7eb;
-        }
-      }
+
       * {
         box-sizing: border-box;
       }
@@ -34,7 +47,17 @@
       }
       body {
         margin: 0;
-        background: var(--bg);
+        background: radial-gradient(
+            1200px 800px at 80% -20%,
+            rgba(108, 140, 255, 0.08),
+            transparent 60%
+          ),
+          radial-gradient(
+            1200px 800px at 0% 100%,
+            rgba(34, 211, 238, 0.06),
+            transparent 55%
+          ),
+          var(--bg);
         color: var(--fg);
         font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial,
           sans-serif;
@@ -42,33 +65,118 @@
         place-items: center;
         padding: 24px;
       }
+
+      /* top-right theme toggle */
+      .topbar {
+        position: fixed;
+        inset: 16px 16px auto auto;
+        z-index: 10;
+      }
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 10px;
+        border: 1px solid var(--btn-border);
+        background: var(--btn-bg);
+        color: var(--fg);
+        cursor: pointer;
+        user-select: none;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+        transition: background 0.15s ease, border-color 0.15s ease,
+          transform 0.06s ease;
+      }
+      .theme-toggle:hover {
+        background: var(--btn-bg-hover);
+      }
+      .theme-toggle:active {
+        transform: translateY(1px);
+      }
+      .theme-toggle:focus-visible {
+        outline: none;
+        box-shadow: var(--ring);
+      }
+      .theme-toggle .txt {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .theme-toggle .emo {
+        font-size: 18px;
+        line-height: 1;
+      }
+
       .card {
-        width: min(720px, 100%);
-        padding: 28px 28px 22px;
+        width: min(860px, 100%);
+        padding: 28px;
         border: 1px solid var(--border);
         background: var(--card);
-        border-radius: 16px;
-        box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-      }
-      h1 {
-        margin: 0 0 8px;
-        font-size: 28px;
-      }
-      p {
-        margin: 0 0 14px;
-        color: var(--muted);
-      }
-      code {
-        background: rgba(108, 140, 255, 0.12);
-        padding: 2px 6px;
-        border-radius: 8px;
-        color: var(--fg);
+        border-radius: 18px;
+        box-shadow: var(--shadow);
       }
       .row {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-top: 18px;
+        flex-wrap: wrap;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 28px;
+        letter-spacing: 0.2px;
+      }
+      p {
+        margin: 0 0 14px;
+        color: var(--muted);
+      }
+      .lead {
+        font-size: 15px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 18px;
+        align-items: center;
+      }
+      @media (max-width: 560px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+      }
+      .big404 {
+        width: 100px;
+        height: 100px;
+        border-radius: 20px;
+        background: conic-gradient(
+            from 210deg at 70% 30%,
+            var(--accent),
+            #22d3ee
+          ),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font: 800 28px/1 ui-monospace, SFMono-Regular, Menlo, Consolas,
+          monospace;
+        box-shadow: inset 0 0 24px rgba(255, 255, 255, 0.08);
+        position: relative;
+        overflow: hidden;
+      }
+      .big404::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          180px 100px at -10% 120%,
+          rgba(255, 255, 255, 0.18),
+          transparent 50%
+        );
+        mix-blend-mode: screen;
+      }
+
+      .actions {
+        margin-top: 14px;
       }
       .btn {
         display: inline-flex;
@@ -80,62 +188,159 @@
         background: transparent;
         color: var(--fg);
         text-decoration: none;
+        cursor: pointer;
+        user-select: none;
+        transition: transform 0.06s ease, background 0.2s ease,
+          border-color 0.2s ease;
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .btn:focus-visible {
+        outline: none;
+        box-shadow: var(--ring);
       }
       .btn.primary {
         background: var(--accent);
         color: #fff;
         border-color: transparent;
       }
-      .small {
+
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 16px 0;
+        opacity: 0.6;
+      }
+      .hint {
         font-size: 13px;
         color: var(--muted);
-        margin-top: 10px;
-      }
-      .kbd {
-        font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        padding: 2px 6px;
-        border: 1px solid var(--border);
-        border-bottom-width: 2px;
-        border-radius: 6px;
-        background: transparent;
-        color: var(--fg);
-      }
-      .path {
-        word-break: break-all;
+        margin-top: 8px;
       }
     </style>
   </head>
   <body>
-    <main class="card" role="main" aria-labelledby="t">
-      <h1 id="t">404 — Page not found</h1>
-      <p>The page you requested doesn’t exist here.</p>
-      <p class="path">Requested URL: <code id="req"></code></p>
+    <!-- top-right: theme toggle only -->
+    <div class="topbar">
+      <button
+        id="toggleTheme"
+        class="theme-toggle"
+        type="button"
+        aria-pressed="false"
+        title="Switch theme"
+      >
+        <span id="themeText" class="txt">Light</span>
+        <span id="themeEmoji" class="emo">🌤️</span>
+      </button>
+    </div>
 
-      <div class="row">
-        <a class="btn primary" href="/">Go to Home</a>
-        <a class="btn" href="/visualizer">Open Visualizer</a>
+    <main class="card" role="main" aria-labelledby="t">
+      <div class="hero">
+        <div class="big404" aria-hidden="true">404</div>
+        <header>
+          <h1 id="t">Page not found</h1>
+          <p class="lead">
+            The page you’re looking for isn’t here. You can return to AlgoLens
+            or resume where you left off.
+          </p>
+          <div class="actions row">
+            <a id="home" class="btn primary" href="/">Go to Home</a>
+            <button id="resume" class="btn" type="button" style="display: none">
+              Resume where I was
+            </button>
+          </div>
+          <p class="hint">
+            Shortcuts: <kbd class="kbd">H</kbd> Home •
+            <kbd class="kbd">R</kbd> Reload
+          </p>
+        </header>
       </div>
 
-      <p class="small" id="auto">
-        Trying to take you back to the app… (or press
-        <span class="kbd">H</span> for Home)
-      </p>
+      <div class="divider" role="separator" aria-hidden="true"></div>
+
+      <p id="auto" class="hint">Redirecting you back to the app shortly…</p>
     </main>
 
     <script>
       (function () {
-        // Show the requested path
-        var $req = document.getElementById("req");
-        if ($req)
-          $req.textContent =
-            location.pathname + location.search + location.hash;
+        // Base handling so 404 works under / or /AlgoLens/
+        var path = location.pathname;
+        var base = path.endsWith("/404.html")
+          ? path.slice(0, -"/404.html".length) || "/"
+          : "/";
+        function joinBase(p) {
+          if (base === "/") return p;
+          return (base.endsWith("/") ? base.slice(0, -1) : base) + p;
+        }
+        var $home = document.getElementById("home");
+        if ($home) $home.setAttribute("href", joinBase("/"));
 
-        // If this is an SPA deep-link on static hosting (e.g., GitHub Pages),
-        // gently redirect to "/" after a short delay (while preserving the original
-        // path in sessionStorage so the app can optionally read and route).
+        // THEME: store + apply, independent of OS preference
+        var STORAGE_KEYS = ["ALGO_THEME", "theme"]; // be compatible with your app
+        var $toggle = document.getElementById("toggleTheme");
+        var $txt = document.getElementById("themeText");
+        var $emo = document.getElementById("themeEmoji");
+
+        function saveTheme(theme) {
+          try {
+            STORAGE_KEYS.forEach(function (k) {
+              localStorage.setItem(k, theme);
+            });
+          } catch (e) {}
+        }
+        function readTheme() {
+          try {
+            for (var i = 0; i < STORAGE_KEYS.length; i++) {
+              var v = localStorage.getItem(STORAGE_KEYS[i]);
+              if (v === "light" || v === "dark") return v;
+            }
+          } catch (e) {}
+          // If nothing saved, infer from current DOM (in case app set it before)
+          if (document.documentElement.getAttribute("data-theme")) {
+            return document.documentElement.getAttribute("data-theme");
+          }
+          return "light"; // default
+        }
+        function applyTheme(theme) {
+          var dark = theme === "dark";
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.classList.toggle("dark", dark); // mirror app behavior
+          if ($toggle)
+            $toggle.setAttribute("aria-pressed", dark ? "true" : "false");
+          if ($txt) $txt.textContent = dark ? "Dark" : "Light";
+          if ($emo) $emo.textContent = dark ? "🌙" : "🌤️";
+          saveTheme(theme);
+        }
+        applyTheme(readTheme());
+        if ($toggle) {
+          $toggle.addEventListener("click", function () {
+            var next = document.documentElement.classList.contains("dark")
+              ? "light"
+              : "dark";
+            applyTheme(next);
+          });
+        }
+
+        // Resume last deep-link if we have it
+        var $resume = document.getElementById("resume");
+        var last = null;
+        try {
+          last = sessionStorage.getItem("ALGO_REDIRECT_PATH");
+        } catch (e) {}
+        if (last && $resume) {
+          $resume.style.display = "inline-flex";
+          $resume.addEventListener("click", function () {
+            location.href = joinBase("/") + last.replace(/^\//, "");
+          });
+        }
+
+        // Gentle SPA auto-redirect back to "/"
         var looksLikeAsset = /\.[a-z0-9]{2,6}$/i.test(location.pathname);
         var skip = new URLSearchParams(location.search).has("no-redirect");
-        if (!looksLikeAsset && !skip && location.pathname !== "/") {
+        var isRoot = path === base || path === base.replace(/\/$/, "");
+        var auto = document.getElementById("auto");
+
+        if (!looksLikeAsset && !skip && !isRoot) {
           try {
             sessionStorage.setItem(
               "ALGO_REDIRECT_PATH",
@@ -143,23 +348,17 @@
             );
           } catch (e) {}
           setTimeout(function () {
-            location.replace("/");
-          }, 1500);
-        } else {
-          var auto = document.getElementById("auto");
-          if (auto) auto.textContent = "Use the buttons above to navigate.";
+            location.replace(joinBase("/"));
+          }, 1300);
+        } else if (auto) {
+          auto.textContent = "Use the actions above to navigate.";
         }
 
-        // Keyboard shortcut: H → Home
+        // Shortcuts
         addEventListener("keydown", function (e) {
-          if (
-            (e.key === "h" || e.key === "H") &&
-            !e.altKey &&
-            !e.metaKey &&
-            !e.ctrlKey
-          ) {
-            location.href = "/";
-          }
+          if (e.altKey || e.metaKey || e.ctrlKey) return;
+          if (e.key === "h" || e.key === "H") location.href = joinBase("/");
+          if (e.key === "r" || e.key === "R") location.reload();
         });
       })();
     </script>

@@ -1,26 +1,19 @@
-/** Prettier config for AlgoLens */
+/** @type {import('prettier').Config} */
 module.exports = {
-    printWidth: 100,
+    printWidth: 80,
     tabWidth: 2,
     useTabs: false,
     semi: true,
-    singleQuote: true,
-    quoteProps: "as-needed",
+    singleQuote: false,
     jsxSingleQuote: false,
-    trailingComma: "all",
+    quoteProps: "as-needed",
+    trailingComma: "es5",
     bracketSpacing: true,
     bracketSameLine: false,
     arrowParens: "always",
-    endOfLine: "lf",
     proseWrap: "preserve",
+    htmlWhitespaceSensitivity: "css",
+    endOfLine: "lf",
+    singleAttributePerLine: false,
     embeddedLanguageFormatting: "auto",
-
-    overrides: [
-        { files: "*.md", options: { proseWrap: "always" } },
-        { files: ["*.yml", "*.yaml", "*.css", "*.scss"], options: { singleQuote: false } }
-    ],
-
-    // Sorts Tailwind classes—install: npm i -D prettier prettier-plugin-tailwindcss
-    plugins: ["prettier-plugin-tailwindcss"],
-    tailwindFunctions: ["clsx", "classnames", "twMerge", "cva"]
 };

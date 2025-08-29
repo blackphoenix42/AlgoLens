@@ -1,3 +1,5 @@
+import * as Sentry from "@sentry/react";
+import React, { useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -47,35 +49,41 @@ function ErrorBoundary() {
   );
 }
 
-/** Use this for the 404 route (NO useRouteError here) */
-function NotFound() {
-  return (
-    <div className="min-h-screen grid place-items-center p-6">
-      <div className="max-w-lg w-full border rounded-xl p-6 shadow-sm bg-white dark:bg-slate-900 dark:border-slate-700">
-        <h1 className="text-2xl font-bold mb-2">404 — Not Found</h1>
-        <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-          We couldn’t find that page.
-        </p>
-        <Link
-          to="/"
-          className="px-3 py-2 rounded-lg border bg-white hover:bg-slate-50 dark:bg-slate-800 dark:border-slate-700"
-        >
-          ← Back to Home
-        </Link>
-      </div>
-    </div>
-  );
+/** Catch-all: load the static 404.html from public/ */
+function Static404() {
+  useEffect(() => {
+    // Respect Vite base path if you ever set one
+    const href = `${import.meta.env.BASE_URL}404.html`;
+
+    // Optional breadcrumb in Sentry for “route not found”
+    Sentry.addBreadcrumb({
+      category: "routing",
+      message: "redirecting to /404.html",
+      level: "info",
+    });
+    // Optional signal (non-fatal)
+    Sentry.captureMessage("route_not_found");
+
+    // Hard navigate to the static file
+    window.location.replace(href);
+  }, []);
+  return null;
 }
 
-const router = createBrowserRouter([
+// If you're on Sentry v9+/10, this exists; otherwise you can keep your earlier compatibility shim.
+const createRouter = (Sentry as any).wrapCreateBrowserRouterV6
+  ? (Sentry as any).wrapCreateBrowserRouterV6(createBrowserRouter)
+  : createBrowserRouter;
+
+const router = createRouter([
   { path: "/", element: <HomePage />, errorElement: <ErrorBoundary /> },
   {
     path: "/viz/:topic/:slug",
     element: <VisualizerPage />,
     errorElement: <ErrorBoundary />,
   },
-  // Catch-all 404 (must NOT use useRouteError)
-  { path: "*", element: <NotFound /> },
+  // Catch-all: use the static 404 page
+  { path: "*", element: <Static404 /> },
 ]);
 
 export default function AppRouter() {
