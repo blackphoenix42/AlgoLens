@@ -220,6 +220,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
   function onWheel(e: React.WheelEvent) {
     const wantPan = panMode || e.shiftKey || e.altKey || e.buttons === 2;
     if (wantPan) {
+      e.preventDefault();
       userInteracted.current = true;
       setTx((t) => t - e.deltaX);
       setTy((t) => t - e.deltaY);
@@ -414,7 +415,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
         <div ref={rotatorRef} className="absolute inset-0">
           <div
             className="relative"
-            style={{ transform: innerTransform, transformOrigin: "0 0" }}
+            style={{ transform: innerTransform, transformOrigin: "0 0", willChange: "transform"  }}
           >
             <div
               className="relative"
@@ -459,7 +460,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
                                   ? "0 0 0 3px rgba(59,130,246,.35)"
                                   : undefined,
                               }}
-                              title={`a[${i}]=${v}`}
+                              // title={`a[${i}]=${v}`}
                             />
                             {showLabels && (
                               <div
@@ -470,6 +471,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
                                   background: chipBg,
                                   color: chipFg,
                                   borderColor: canvasBorder,
+                                  pointerEvents: "none",
                                 }}
                               >
                                 {v}
@@ -494,7 +496,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
                                   ? "0 0 0 3px rgba(59,130,246,.35)"
                                   : undefined,
                               }}
-                              title={`a[${i}]=${v}`}
+                              // title={`a[${i}]=${v}`}
                             />
                             {showLabels && (
                               <div
@@ -505,6 +507,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
                                   background: chipBg,
                                   color: chipFg,
                                   borderColor: canvasBorder,
+                                  pointerEvents: "none",
                                 }}
                               >
                                 {v}

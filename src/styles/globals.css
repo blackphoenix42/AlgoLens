@@ -1,6 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@config "../../tailwind.config.ts";
+@import "tailwindcss";
 
 /* =========================
    THEME TOKENS (one source)
@@ -98,7 +97,10 @@ h3 {
   background-color: var(--canvas-bg);
   color: var(--canvas-fg);
 }
-
+.viz-canvas,
+.viz-canvas * {
+  cursor: inherit;
+}
 /* Optional: make the fullscreen backdrop match too */
 .viz-surface:fullscreen::backdrop,
 .viz-shell:fullscreen::backdrop,
@@ -165,8 +167,13 @@ h3 {
            focus:outline-none focus:ring-2 focus:ring-indigo-500
            dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700;
   }
+  /* NOTE: can't @apply .ui-input; @apply only accepts utilities */
   .ui-textarea {
-    @apply ui-input min-h-[92px];
+    @apply w-full rounded-xl border px-3 py-2 shadow-sm
+           bg-white text-slate-900 border-slate-300 placeholder:text-slate-500
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500
+           dark:bg-slate-900 dark:text-slate-100 dark:border-slate-700 dark:placeholder:text-slate-400
+           min-h-[92px];
   }
 
   /* Icon buttons (copy/paste etc.) */
@@ -250,6 +257,7 @@ h3 {
 .dark .modal-body code {
   color: #fde68a;
 } /* amber-200 for inline code */
+
 /* Markdown tweaks */
 .markdown a {
   text-decoration: underline;
