@@ -1,6 +1,6 @@
 // src/components/panels/AboutPanel.tsx
 import { useState } from "react";
-import type { AlgoMeta } from "@/engine/registry";
+import type { AlgoMeta } from "@/algorithms/types";
 import Modal from "@/components/ui/Modal";
 import ExpandIcon from "@/components/ui/ExpandIcon";
 import Markdown from "@/components/ui/Markdown";
