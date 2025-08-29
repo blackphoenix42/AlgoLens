@@ -95,7 +95,7 @@ a11y: ## Run pa11y-ci accessibility checks
 
 .PHONY: lhci
 lhci: build ## Run Lighthouse CI against /dist
-	$(NPX) lhci autorun --config=lighthouserc.json
+	$(NPX) -y @lhci/cli autorun --config=lhci/lighthouserc.json
 
 # ---- Analysis / Perf / Licenses / Sitemap ----
 .PHONY: analyze
