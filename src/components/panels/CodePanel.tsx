@@ -10,7 +10,7 @@ import "highlight.js/styles/github.css";
 import "@/styles/hljs-dark-overrides.css";
 import "@/styles/codepanel.css";
 
-import type { AlgoMeta } from "@/algorithms/types";
+import type { AlgoMeta } from "@/core/algorithm/types";
 
 hljs.registerLanguage("cpp", cpp);
 hljs.registerLanguage("java", java);

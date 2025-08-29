@@ -1,12 +1,10 @@
 // src/pages/VisualizerPage.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { findAlgo } from "@/engine/registry";
-import { useRunner } from "@/engine/runner";
-import ArrayCanvas, {
-  ArrayCanvasHandle,
-} from "@/components/canvas/ArrayCanvas";
-import CanvasToolbar from "@/components/canvas/CanvasToolbar";
+import { find } from "@/core/algorithm/registry";
+import { usePlayer } from "@/core/runner/player";
+import ArrayCanvas, { ArrayCanvasHandle } from "@/features/sorting/ui/ArrayCanvas";
+import CanvasToolbar from "@/features/sorting/ui/Toolbar";
 import Transport from "@/components/controls/Transport";
 import CodePanel from "@/components/panels/CodePanel";
 import AboutPanel from "@/components/panels/AboutPanel";
@@ -14,13 +12,13 @@ import DatasetPanel from "@/components/controls/DatasetPanel";
 import ArrayViewPanel from "@/components/controls/ArrayViewPanel";
 import { makeRandomArray } from "@/lib/arrays";
 import { DrawOptions } from "@/lib/exporter";
-import * as url from "@/engine/urlState";
+import * as url from "@/lib/urlState";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import HomeButton from "@/components/ui/HomeButton";
 
 export default function VisualizerPage() {
   const { topic = "", slug = "" } = useParams();
-  const meta = findAlgo(topic, slug);
+  const meta = find(topic, slug);
 
   const params = useMemo(() => url.read(), []);
   const initialN = Number(params.get("n") ?? 16);
@@ -53,8 +51,7 @@ export default function VisualizerPage() {
     if (!meta) return;
     let mounted = true;
     (async () => {
-      const { run } = await meta.load();
-      const it = run(input, { seed: initialSeed });
+      const it = meta.run(input, { seed: initialSeed });
       const all: any[] = [];
       for (let f = it.next(); !f.done; f = it.next()) all.push(f.value);
       if (mounted) setFrames(all);
@@ -65,7 +62,7 @@ export default function VisualizerPage() {
   }, [meta, input, initialSeed]);
 
   const total = frames.length;
-  const runner = useRunner(total, initialSpeed);
+  const runner = usePlayer(total, initialSpeed);
   const frame = frames[runner.idx] ?? {};
 
   useEffect(() => {
