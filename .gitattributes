@@ -34,3 +34,5 @@ e2e/__screenshots__/*        linguist-generated=true
 # Exclude from `git archive`
 .github/ export-ignore
 e2e/     export-ignore
+
+.husky/* text eol=lf

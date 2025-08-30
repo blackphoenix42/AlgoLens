@@ -1,22 +1,20 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+#!/bin/sh
+set -e
 
 MSG_FILE="$1"
 
-# Allow merge commits and version bumps from Changesets
-if grep -qiE '^(Merge|Revert|Release)' "$MSG_FILE"; then
+# Allow merges/reverts/changeset releases
+if grep -qiE '^(Merge|Revert|Release|chore\(release\))' "$MSG_FILE"; then
   exit 0
 fi
 
 # Prefer commitlint if available
-if command -v npx >/dev/null 2>&1 && npx --yes --no-install commitlint --help >/dev/null 2>&1; then
-  npx --yes --no-install commitlint --edit "$MSG_FILE"
+if command -v npx >/dev/null 2>&1 && npx --no-install commitlint --help >/dev/null 2>&1; then
+  npx --no-install commitlint --edit "$MSG_FILE"
   exit $?
 fi
 
-# Fallback: basic Conventional Commits regex
-# type(scope?): subject
-# types: feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert
+# Fallback: basic Conventional Commits check: type(scope?): subject
 if ! grep -qE '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9\-.,/]+\))?: .+' "$MSG_FILE"; then
   echo "⛔ Commit message must follow Conventional Commits, e.g.:"
   echo "   feat(ui): add dark mode toggle"

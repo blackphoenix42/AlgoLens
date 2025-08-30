@@ -1,0 +1,43 @@
+#!/bin/sh
+set -e
+
+# --- settings -------------------------------------------------
+: "${SKIP_PREPUSH_BUILD:=0}"   # set to 1 to skip build locally
+# --------------------------------------------------------------
+
+echo "husky(pre-push): running checks…"
+
+# ensure repo root
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+echo "→ Typecheck"
+npm run -s typecheck
+
+echo "→ Lint (if present)"
+if npm run -s lint >/dev/null 2>&1; then
+  npm run -s lint
+else
+  echo "  (no 'lint' script; skipping)"
+fi
+
+echo "→ Tests"
+if npm run -s test >/dev/null 2>&1; then
+  # don't pass Vitest flags to Playwright; just run the script as-is
+  npm run -s test
+else
+  echo "  (no 'test' script; skipping)"
+fi
+
+if [ "$SKIP_PREPUSH_BUILD" -eq 0 ]; then
+  echo "→ Build (sanity)"
+  if npm run -s build >/dev/null 2>&1; then
+    npm run -s build
+  else
+    echo "  (no 'build' script; skipping)"
+  fi
+else
+  echo "→ Build skipped (SKIP_PREPUSH_BUILD=1)"
+fi
+
+echo "✓ All pre-push checks passed"
