@@ -1,53 +1,45 @@
 name: E2E
 
 on:
-  pull_request:
   push:
-    branches: [master]
-
-concurrency:
-  group: e2e-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [main]
+  pull_request:
 
 jobs:
-  playwright:
+  e2e:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v5
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
-          cache: npm
+          node-version: 22
 
-      - name: Install deps
-        run: npm ci
+      - run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+      # Install Playwright browsers
+      - uses: microsoft/playwright-github-action@v1
 
-      - name: Build site
-        run: npm run build --if-present || npx vite build
+      # Optional: Percy (needs secret PERCY_TOKEN); comment out if not using Percy
+      # - run: npx percy --version
+      # - run: npm run test:percy
+      #   env:
+      #     PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
-      - name: Start preview server
-        run: |
-          npx vite preview --port 4173 --strictPort &
-          npx -y wait-on http://127.0.0.1:4173
+      # Run normal Playwright tests (will build + preview via webServer)
+      - run: npm run test:e2e
 
-      - name: Run Playwright tests
-        env:
-          CI: true
-        run: npx playwright test --reporter=line
-
-      - name: Upload Playwright artifacts
+      # Upload HTML report
+      - uses: actions/upload-artifact@v4
         if: always()
-        uses: actions/upload-artifact@v4
         with:
-          name: playwright-artifacts
-          path: |
-            playwright-report/**
-            test-results/**
-            **/playwright/.cache/**
-          if-no-files-found: ignore
+          name: playwright-report
+          path: playwright-report
+
+      # Optional: accessibility (requires server; Playwright just ran preview earlier, so run pa11y in a fresh preview)
+      - run: npm run build
+      - run: npx vite preview --port 4173 --strictPort &
+      - run: npm run test:a11y
+
+      # Optional: bundle analysis fail threshold
+      - run: npm run analyze:bundle

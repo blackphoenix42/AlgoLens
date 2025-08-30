@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.node.json",
+  "compilerOptions": {
+    "types": ["node", "@playwright/test"],
+    "moduleResolution": "node",
+    "target": "ES2022"
+  },
+  "include": ["e2e/**/*.ts"]
+}

@@ -17,7 +17,15 @@
     "prepare": "husky",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "test": "playwright test --reporter=dot"
+    "test": "playwright test --reporter=dot",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "pwsh -NoProfile -Command \"$env:PWDEBUG='1'; playwright test\"",
+    "e2e:report": "playwright show-report",
+    "test:e2e:dev": "cross-env PW_BASE_URL=http://127.0.0.1:5173 playwright test",
+    "test:a11y": "pa11y-ci e2e/pa11.json",
+    "test:percy": "percy exec -- playwright test",
+    "analyze:bundle": "node e2e/analyze.mjs --dir=dist --out=analysis --budget-js=250kb --budget-total=600kb --fail-on-threshold"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
@@ -39,7 +47,7 @@
     "@changesets/cli": "2.29.6",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
-    "@playwright/test": "^1.45.1",
+    "@playwright/test": "1.55.0",
     "@sentry/vite-plugin": "4.2.0",
     "@tailwindcss/postcss": "4.1.12",
     "@tailwindcss/vite": "4.1.12",
