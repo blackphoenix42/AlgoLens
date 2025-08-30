@@ -25,7 +25,12 @@
     "test:e2e:dev": "cross-env PW_BASE_URL=http://127.0.0.1:5173 playwright test",
     "test:a11y": "pa11y-ci e2e/pa11.json",
     "test:percy": "percy exec -- playwright test",
-    "analyze:bundle": "node e2e/analyze.mjs --dir=dist --out=analysis --budget-js=250kb --budget-total=600kb --fail-on-threshold"
+    "analyze:bundle": "node e2e/analyze.mjs --dir=dist --out=analysis --budget-js=250kb --budget-total=600kb --fail-on-threshold",
+    "lhci:server": "http-server ./dist -p 4173 -s",
+    "lhci:collect": "lhci collect --config=lhci/lighthouserc.json",
+    "lhci:assert": "lhci assert --config=lhci/lighthouserc.json",
+    "lhci:upload": "lhci upload --config=lhci/lighthouserc.json",
+    "lhci": "npm run build && lhci autorun --config=lhci/lighthouserc.json"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
@@ -47,6 +52,7 @@
     "@changesets/cli": "2.29.6",
     "@commitlint/cli": "19.8.1",
     "@commitlint/config-conventional": "19.8.1",
+    "@lhci/cli": "0.15.1",
     "@playwright/test": "1.55.0",
     "@sentry/vite-plugin": "4.2.0",
     "@tailwindcss/postcss": "4.1.12",
@@ -64,6 +70,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-unused-imports": "4.2.0",
+    "http-server": "14.1.1",
     "husky": "9.1.7",
     "lint-staged": "16.1.5",
     "postcss": "^8.4.41",

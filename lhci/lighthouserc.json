@@ -31,6 +31,8 @@
     },
     "upload": {
       "target": "temporary-public-storage"
-    }
+    },
+    "startServerReadyPattern": "Available on:",
+    "startServerReadyTimeout": 60000
   }
 }

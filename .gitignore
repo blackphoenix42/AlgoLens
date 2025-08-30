@@ -40,3 +40,5 @@ test-results/
 !e2e/__screenshots__/**
 
 .npm-cache
+
+.lighthouseci/
