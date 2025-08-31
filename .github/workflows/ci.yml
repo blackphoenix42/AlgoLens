@@ -10,21 +10,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build_test:
+  lint_typecheck_unit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - uses: actions/checkout@v5
 
-      - name: Use Node
+      # Use stable LTS to avoid toolchain surprises
+      - name: Use Node (20 LTS)
         uses: actions/setup-node@v4
         with:
-          node-version-file: .node-version
+          node-version: "20.16.x"
           cache: npm
 
-      - name: Install deps
+      - name: Install dependencies (clean)
         run: npm ci
+
+      # Workaround npm optional-deps bug for Rollup on Linux
+      - name: Patch Rollup native binary (Linux)
+        if: runner.os == 'Linux'
+        run: npm i --no-save --no-package-lock @rollup/rollup-linux-x64-gnu@^4
 
       - name: Lint (ESLint + Stylelint)
         run: |
@@ -32,15 +38,19 @@ jobs:
           npm run stylelint --if-present || echo "No stylelint script"
 
       - name: Type check
-        run: npm run typecheck --if-present || npx tsc -p tsconfig.json --noEmit
+        run: npm run typecheck --if-present || npx -y typescript@latest -p tsconfig.json --noEmit
+
+      # Ensure vitest is available locally (your repo logs show it's missing)
+      - name: Ensure Vitest present
+        run: npm ls vitest || npm i --no-save --no-package-lock vitest@^3 @vitest/coverage-v8@^3
 
       - name: Unit tests (Vitest)
         env:
           CI: true
-        run: npm run test --if-present || npx vitest run --coverage
+        run: npx vitest run --coverage
 
       - name: Build (Vite)
-        run: npm run build --if-present || npx vite build
+        run: npm run build --if-present || npx -y vite@latest build
 
       - name: Upload coverage
         if: always()
@@ -51,3 +61,41 @@ jobs:
             coverage/**
             .vitest/**
           if-no-files-found: ignore
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: lint_typecheck_unit
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Use Node (20 LTS)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.16.x"
+          cache: npm
+
+      - name: Install dependencies (clean)
+        run: npm ci
+
+      # Same Rollup workaround for the E2E job
+      - name: Patch Rollup native binary (Linux)
+        if: runner.os == 'Linux'
+        run: npm i --no-save --no-package-lock @rollup/rollup-linux-x64-gnu@^4
+
+      - name: Build site
+        run: npm run build --if-present || npx -y vite@latest build
+
+      - name: Install Playwright browsers
+        run: npx -y playwright@latest install --with-deps
+
+      - name: Start preview server
+        run: |
+          npx -y vite@latest preview --port 4173 --strictPort &
+          npx -y wait-on@latest http://127.0.0.1:4173
+
+      - name: Run Playwright tests
+        env:
+          CI: true
+        run: npx -y playwright@latest test --reporter=dot
