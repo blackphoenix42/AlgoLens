@@ -13,10 +13,11 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
-    "types": ["node", "vite/client", "vitest/globals", "playwright"],
+    "types": ["node", "vite/client"],
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "bubbleSort.ts"]
+  "include": ["src", "bubbleSort.ts"],
+  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "tests", "e2e"]
 }
