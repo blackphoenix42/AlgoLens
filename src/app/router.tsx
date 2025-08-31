@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,6 +7,7 @@ import {
   isRouteErrorResponse,
   Link,
 } from "react-router-dom";
+
 import HomePage from "@/pages/HomePage";
 import VisualizerPage from "@/pages/VisualizerPage";
 
@@ -16,10 +17,17 @@ function ErrorBoundary() {
   const isResp = isRouteErrorResponse(err);
   const status = isResp ? err.status : 500;
   const statusText = isResp ? err.statusText : "Unexpected Error";
+
   const msg =
-    !isResp && err && typeof err === "object" && "message" in err
-      ? (err as any).message
-      : null;
+    !isResp && err instanceof Error
+      ? err.message
+      : !isResp &&
+          typeof err === "object" &&
+          err !== null &&
+          "message" in err &&
+          typeof (err as Record<string, unknown>).message === "string"
+        ? (err as { message: string }).message
+        : null;
 
   return (
     <div className="min-h-screen grid place-items-center p-6">
@@ -70,9 +78,17 @@ function Static404() {
   return null;
 }
 
-// If you're on Sentry v9+/10, this exists; otherwise you can keep your earlier compatibility shim.
-const createRouter = (Sentry as any).wrapCreateBrowserRouterV6
-  ? (Sentry as any).wrapCreateBrowserRouterV6(createBrowserRouter)
+type WrapFn = (fn: typeof createBrowserRouter) => typeof createBrowserRouter;
+
+// Runtime type guard to check for the wrapper without using `any`
+const hasWrap = (o: unknown): o is { wrapCreateBrowserRouterV6: WrapFn } =>
+  typeof o === "object" &&
+  o !== null &&
+  typeof (o as Record<string, unknown>).wrapCreateBrowserRouterV6 ===
+    "function";
+
+export const createRouter: typeof createBrowserRouter = hasWrap(Sentry)
+  ? Sentry.wrapCreateBrowserRouterV6(createBrowserRouter)
   : createBrowserRouter;
 
 const router = createRouter([

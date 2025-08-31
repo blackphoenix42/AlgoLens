@@ -63,7 +63,7 @@ export default function FilterBar(props: Props) {
           />
           <select
             value={sortKey}
-            onChange={(e) => setSortKey(e.target.value as any)}
+            onChange={(e) => setSortKey(e.target.value as SortKey)}
             className="rounded-xl border px-3 py-2 text-sm dark:bg-gray-950 dark:border-gray-800"
             title="Sort"
           >

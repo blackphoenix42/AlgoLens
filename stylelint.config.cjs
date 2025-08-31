@@ -1,3 +1,4 @@
+/* eslint-env node, commonjs */
 /** Stylelint config for AlgoLens (CSS + Tailwind) */
 module.exports = {
     extends: [

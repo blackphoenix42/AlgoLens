@@ -1,16 +1,13 @@
 #!/usr/bin/env node
-/* eslint-disable no-console */
 // Simple bundle analyzer & budget checker (ESM, Node 18+). No dependencies.
 
 import { promises as fs } from "node:fs";
-import { dirname, extname, join, relative } from "node:path";
-import { fileURLToPath } from "node:url";
+import { extname, join, relative } from "node:path";
 import { brotliCompress, gzip } from "node:zlib";
 import { promisify } from "node:util";
 
 const gz = promisify(gzip);
 const br = promisify(brotliCompress);
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ---------- CLI args ----------
 const args = parseArgs(process.argv.slice(2));
@@ -177,7 +174,7 @@ function parseSize(x) {
 
 function checkBudgets(totals, budgets) {
     const out = {};
-    const check = (label, bytes) => {
+    const check = (label) => {
         const limit = budgets[label];
         if (!limit) return null;
         return {

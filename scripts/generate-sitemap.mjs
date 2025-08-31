@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // Node 18+ ESM. Generates a simple sitemap for SPAs.
 import { promises as fs } from "node:fs";
-import { join } from "node:path";
 
 const args = parseArgs(process.argv.slice(2));
 const base = (args.base || "https://algolens.app").replace(/\/+$/, "");

@@ -1,8 +1,8 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
+import rehypeKatex from "rehype-katex"; // render math
 import remarkGfm from "remark-gfm"; // tables, lists, strikethrough
 import remarkMath from "remark-math"; // $...$ and $$...$$
-import rehypeKatex from "rehype-katex"; // render math
 import "katex/dist/katex.min.css";
 
 export default function Markdown({ children }: { children: string }) {

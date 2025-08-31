@@ -384,12 +384,13 @@ export async function exportMP4(
 
   const mimeMp4 = "video/mp4";
   const mimeWebm = "video/webm;codecs=vp9,opus";
-  const canMp4 = (window as any).MediaRecorder?.isTypeSupported?.(mimeMp4);
+  const canMp4 = window.MediaRecorder?.isTypeSupported?.(mimeMp4) ?? false;
   const mime = canMp4 ? mimeMp4 : mimeWebm;
 
-  const stream = (c as any).captureStream?.(fps);
-  if (!stream || !(window as any).MediaRecorder)
+  const stream = (c as HTMLCanvasElement).captureStream?.(fps);
+  if (!stream || !window.MediaRecorder) {
     throw new Error("MediaRecorder not supported in this browser.");
+  }
 
   const rec = new MediaRecorder(stream, {
     mimeType: mime,
@@ -404,7 +405,6 @@ export async function exportMP4(
   rec.start();
 
   const frameDelay = 1000 / fps;
-  const t0 = performance.now();
   let i = 0;
   while (i < frames.length) {
     const start = performance.now();

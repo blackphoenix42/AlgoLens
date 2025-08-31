@@ -6,8 +6,9 @@ type Fixtures = {
   gotoApp: (path?: string) => Promise<void>;
 };
 
-export const test = base.extend<Fixtures>({
-  gotoApp: async ({ page }, use) => {
+const test = base.extend<Fixtures>({
+  // Rename second arg from `use` → `provide` to avoid react-hooks false positive
+  gotoApp: async ({ page }, provide) => {
     const BASE =
       process.env.PW_BASE_URL?.replace(/\/+$/, "") || "http://127.0.0.1:4173";
 
@@ -24,7 +25,7 @@ export const test = base.extend<Fixtures>({
       `,
     });
 
-    await use(async (path = "/") => {
+    await provide(async (path = "/") => {
       const url = path.startsWith("http")
         ? path
         : `${BASE}${path.startsWith("/") ? "" : "/"}${path}`;
@@ -34,4 +35,8 @@ export const test = base.extend<Fixtures>({
   },
 });
 
-export { expect };
+test.use({
+  baseURL: process.env.VITE_PREVIEW_URL ?? "http://127.0.0.1:4173",
+});
+
+export { test, expect };

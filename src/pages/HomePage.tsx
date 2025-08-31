@@ -1,20 +1,22 @@
 import { useMemo, useState } from "react";
-import { CATALOG } from "@/engine/registry";
+
 import AlgoCard, { AlgoItem } from "@/components/home/AlgoCard";
 import ThemeToggle from "@/components/ui/ThemeToggle";
+import { CATALOG } from "@/engine/registry";
 
 type SortKey = "relevance" | "titleAsc" | "titleDesc" | "diffAsc" | "diffDesc";
+type DifficultyLabel = "Easy" | "Medium" | "Hard";
 
 const normDiff = (v?: AlgoItem["difficulty"]) =>
   v == null
     ? 3
     : typeof v === "number"
-    ? v
-    : v === "Easy"
-    ? 1
-    : v === "Medium"
-    ? 3
-    : 5;
+      ? v
+      : v === "Easy"
+        ? 1
+        : v === "Medium"
+          ? 3
+          : 5;
 
 const pretty = (t: string) =>
   t.replace(/[-_]/g, " ").replace(/\b\w/g, (m) => m.toUpperCase());
@@ -88,10 +90,10 @@ export default function HomePage() {
           ? d <= 2
             ? "Easy"
             : d <= 3
-            ? "Medium"
-            : "Hard"
-          : d ?? "Medium";
-      return (difficulties as any)[label];
+              ? "Medium"
+              : "Hard"
+          : (d ?? "Medium");
+      return (difficulties as Record<DifficultyLabel, boolean>)[label];
     };
 
     const score = (t: string, it: AlgoItem) => {
@@ -200,7 +202,9 @@ export default function HomePage() {
               {/* Difficulty next to search */}
               <div className="flex items-center gap-1 rounded-xl border p-1 bg-white dark:bg-slate-900 dark:border-slate-700">
                 {(["Easy", "Medium", "Hard"] as const).map((d) => {
-                  const on = (difficulties as any)[d];
+                  const on = (difficulties as Record<DifficultyLabel, boolean>)[
+                    d
+                  ];
                   return (
                     <button
                       key={d}

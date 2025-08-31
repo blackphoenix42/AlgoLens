@@ -5,6 +5,7 @@ import React, {
   forwardRef,
   useEffect,
   useLayoutEffect,
+  useCallback,
 } from "react";
 
 type Highlights = {
@@ -107,7 +108,29 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
   const contentW = Math.max(0, array.length * COL_W - GAP);
   const axisWidth = LEFT_PAD + contentW + RIGHT_PAD;
   const axisHeight = TOP_PAD + CH + BOTTOM_PAD;
+  // zoom & events
+  const zoomAt = useCallback(
+    (factor: number, cx?: number, cy?: number) => {
+      const wrap = wrapperRef.current;
+      if (!wrap) return;
+      userInteracted.current = true;
 
+      let mx = cx,
+        my = cy;
+      if (mx == null || my == null) {
+        const rect = wrap.getBoundingClientRect();
+        mx = (rect.width / 2 - tx) / scale;
+        my = (rect.height / 2 - ty) / scale;
+      }
+
+      const prev = scale;
+      const next = Math.min(5, Math.max(0.2, prev * factor));
+      setTx(tx + (mx as number) * (next - prev));
+      setTy(ty + (my as number) * (next - prev));
+      setScale(next);
+    },
+    [tx, ty, scale]
+  );
   // external toggles
   useEffect(() => {
     if (typeof panModeExternal === "boolean") setPanMode(panModeExternal);
@@ -116,25 +139,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
     onViewChange?.({ grid, snap, pan: panMode, drag: dragOn });
   }, [grid, snap, panMode, dragOn, onViewChange]);
 
-  useImperativeHandle(ref, () => ({
-    zoomIn: () => zoomAt(1.2),
-    zoomOut: () => zoomAt(1 / 1.2),
-    resetView: () => {
-      setScale(1);
-      setTx(0);
-      setTy(0);
-      userInteracted.current = false;
-      centerBars();
-    },
-    toggleGrid: () => setGrid((g) => !g),
-    toggleSnap: () => setSnap((s) => !s),
-    setPanMode: (on: boolean) => setPanMode(on),
-    rotate90: () => setAngle((a) => (a + 90) % 360),
-    setDragEnabled: (on: boolean) => setDragOn(on),
-    centerBars: () => centerBars(),
-  }));
-
-  function centerBars() {
+  const centerBars = useCallback(() => {
     const wrap = wrapperRef.current;
     if (!wrap) return;
     const rect = wrap.getBoundingClientRect();
@@ -143,16 +148,41 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
 
     setTx(Math.max(0, Math.round((rect.width - totalW) / 2)));
     setTy(Math.max(0, Math.round((rect.height - totalH) / 2)));
-  }
+  }, [axisWidth, axisHeight, scale]);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      zoomIn: () => zoomAt(1.2),
+      zoomOut: () => zoomAt(1 / 1.2),
+      resetView: () => {
+        setScale(1);
+        setTx(0);
+        setTy(0);
+        userInteracted.current = false;
+        centerBars();
+      },
+      toggleGrid: () => setGrid((g) => !g),
+      toggleSnap: () => setSnap((s) => !s),
+      setPanMode: (on: boolean) => setPanMode(on),
+      rotate90: () => setAngle((a) => (a + 90) % 360),
+      setDragEnabled: (on: boolean) => setDragOn(on),
+      centerBars: () => centerBars(),
+    }),
+    [centerBars, zoomAt]
+  );
+
   useLayoutEffect(() => {
     if (!didCenter.current) {
       centerBars();
       didCenter.current = true;
     }
-  }, []);
+  }, [centerBars]);
+
   useEffect(() => {
     if (!userInteracted.current) centerBars();
-  }, [array.length]);
+  }, [array.length, centerBars]);
+
   useEffect(() => {
     if (!wrapperRef.current) return;
     const ro = new ResizeObserver(() => {
@@ -160,7 +190,7 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
     });
     ro.observe(wrapperRef.current);
     return () => ro.disconnect();
-  }, []);
+  }, [centerBars]);
 
   // domain/ticks
   const vmin = Math.min(0, ...array);
@@ -188,24 +218,6 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
   const colLeft = (i: number) => Math.round(LEFT_PAD + i * COL_W);
   const colCenter = (i: number) => colLeft(i) + Math.round(BAR_W / 2);
 
-  // zoom & events
-  function zoomAt(factor: number, cx?: number, cy?: number) {
-    const wrap = wrapperRef.current;
-    if (!wrap) return;
-    userInteracted.current = true;
-    let mx = cx,
-      my = cy;
-    if (mx == null || my == null) {
-      const rect = wrap.getBoundingClientRect();
-      mx = (rect.width / 2 - tx) / scale;
-      my = (rect.height / 2 - ty) / scale;
-    }
-    const prev = scale;
-    const next = Math.min(5, Math.max(0.2, prev * factor));
-    setTx(tx + (mx as number) * (next - prev));
-    setTy(ty + (my as number) * (next - prev));
-    setScale(next);
-  }
   function clientToLocal(e: { clientX: number; clientY: number }) {
     const rect = wrapperRef.current!.getBoundingClientRect();
     const x = (e.clientX - rect.left - tx) / scale;
@@ -366,8 +378,8 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
               ? "grabbing"
               : "grab"
             : panMode
-            ? "grab"
-            : "default",
+              ? "grab"
+              : "default",
       }}
     >
       {/* status */}
@@ -415,7 +427,11 @@ export default forwardRef<ArrayCanvasHandle, Props>(function ArrayCanvas(
         <div ref={rotatorRef} className="absolute inset-0">
           <div
             className="relative"
-            style={{ transform: innerTransform, transformOrigin: "0 0", willChange: "transform"  }}
+            style={{
+              transform: innerTransform,
+              transformOrigin: "0 0",
+              willChange: "transform",
+            }}
           >
             <div
               className="relative"

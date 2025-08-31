@@ -1,5 +1,6 @@
 // src/components/panels/ExportPanel.tsx
 import { useEffect, useMemo, useState } from "react";
+
 import type { DrawOptions, View, ColorMode, Colors } from "@/lib/exporter";
 import {
   exportGIF,
@@ -98,8 +99,8 @@ export default function ExportPanel({
         const { blob, suggestedExt } = await exportMP4(frames, fps);
         download(blob, `visualization.${suggestedExt}`);
       }
-    } catch (e: any) {
-      alert(e?.message || String(e));
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : String(e));
     } finally {
       setBusy(false);
     }
@@ -115,7 +116,9 @@ export default function ExportPanel({
           <select
             className="border rounded px-2 py-1 min-w-0"
             value={fmt}
-            onChange={(e) => setFmt(e.target.value as any)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setFmt(e.currentTarget.value as typeof fmt)
+            }
           >
             <option value="png">PNG</option>
             <option value="jpg">JPG</option>

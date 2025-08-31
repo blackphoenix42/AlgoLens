@@ -2,8 +2,6 @@
 // Node 18+ ESM. Scans node_modules/**/package.json and validates "license".
 import { promises as fs } from "node:fs";
 import { join, relative } from "node:path";
-import { fileURLToPath } from "node:url";
-import { createHash } from "node:crypto";
 
 const cwd = process.cwd();
 const outDir = "analysis";
@@ -116,7 +114,7 @@ function classify(licenseStr) {
     // parse simple SPDX expressions: treat OR as any allowed; AND as all allowed
     const hasOR = /\bOR\b/.test(up);
     const hasAND = /\bAND\b/.test(up);
-    const ids = (up.match(/[A-Z0-9\.\-\+]+/g) || [])
+    const ids = (up.match(/[A-Z0-9.+-]+/g) || [])
         .filter(t => !["WITH", "AND", "OR"].includes(t));
     if (ids.length === 0) return "unknown";
     const isAllowed = (id) => allow.has(id) || allow.has(id.replace(/\+$/, "")); // tolerate trailing +

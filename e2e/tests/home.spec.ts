@@ -1,6 +1,6 @@
 // e2e/tests/home-spec.ts
-import { test, expect } from "../fixtures/test";
 import { S } from "../fixtures/selectors";
+import { test, expect } from "../fixtures/test";
 
 test.use({
   viewport: { width: 1280, height: 800 },

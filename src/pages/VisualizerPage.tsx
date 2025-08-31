@@ -1,22 +1,22 @@
 // src/pages/VisualizerPage.tsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { findAlgo } from "@/engine/registry";
-import { useRunner } from "@/engine/runner";
+
 import ArrayCanvas, {
   ArrayCanvasHandle,
 } from "@/components/canvas/ArrayCanvas";
 import CanvasToolbar from "@/components/canvas/CanvasToolbar";
-import Transport from "@/components/controls/Transport";
-import CodePanel from "@/components/panels/CodePanel";
-import AboutPanel from "@/components/panels/AboutPanel";
-import DatasetPanel from "@/components/controls/DatasetPanel";
 import ArrayViewPanel from "@/components/controls/ArrayViewPanel";
-import { makeRandomArray } from "@/lib/arrays";
-import { DrawOptions } from "@/lib/exporter";
-import * as url from "@/engine/urlState";
-import ThemeToggle from "@/components/ui/ThemeToggle";
+import DatasetPanel from "@/components/controls/DatasetPanel";
+import Transport from "@/components/controls/Transport";
+import AboutPanel from "@/components/panels/AboutPanel";
+import CodePanel from "@/components/panels/CodePanel";
 import HomeButton from "@/components/ui/HomeButton";
+import ThemeToggle from "@/components/ui/ThemeToggle";
+import { findAlgo } from "@/engine/registry";
+import { useRunner } from "@/engine/runner";
+import * as url from "@/engine/urlState";
+import { makeRandomArray } from "@/lib/arrays";
 
 export default function VisualizerPage() {
   const { topic = "", slug = "" } = useParams();
@@ -27,7 +27,7 @@ export default function VisualizerPage() {
   const initialSeed = Number(params.get("seed") ?? 42);
   const initialSpeed = Number(params.get("speed") ?? 1);
 
-  const [frames, setFrames] = useState<any[]>([]);
+  const [frames, setFrames] = useState<unknown[]>([]);
   const [input, setInput] = useState<number[]>(() =>
     makeRandomArray(initialN, 5, 99, initialSeed)
   );
@@ -49,13 +49,17 @@ export default function VisualizerPage() {
   const [showPlane, setShowPlane] = useState(true);
   const [showLabels, setShowLabels] = useState(true);
 
+  // Refs must be declared unconditionally (before any early return)
+  const surfaceRef = useRef<HTMLDivElement | null>(null);
+  const canvasHandle = useRef<ArrayCanvasHandle | null>(null);
+
   useEffect(() => {
     if (!meta) return;
     let mounted = true;
     (async () => {
       const { run } = await meta.load();
       const it = run(input, { seed: initialSeed });
-      const all: any[] = [];
+      const all: unknown[] = [];
       for (let f = it.next(); !f.done; f = it.next()) all.push(f.value);
       if (mounted) setFrames(all);
     })();
@@ -66,7 +70,19 @@ export default function VisualizerPage() {
 
   const total = frames.length;
   const runner = useRunner(total, initialSpeed);
-  const frame = frames[runner.idx] ?? {};
+  type Frame = {
+    array?: number[];
+    highlights?: {
+      compared?: [number, number];
+      swapped?: [number, number];
+      pivot?: number;
+      indices?: number[];
+    };
+    pcLine?: number;
+    explain?: string;
+  };
+
+  const frame = (frames[runner.idx] as Frame) ?? {};
 
   useEffect(() => {
     url.write({
@@ -78,22 +94,6 @@ export default function VisualizerPage() {
   }, [runner.idx, runner.speed, input.length, initialSeed]);
 
   if (!meta) return <div className="p-4">Algorithm not found.</div>;
-
-  const surfaceRef = useRef<HTMLDivElement>(null);
-  const canvasHandle = useRef<ArrayCanvasHandle>(null);
-  const framesProvider = (): DrawOptions[] => {
-    const seq: DrawOptions[] = (
-      frames.length ? frames : [{ array: input } as any]
-    ).map((f: any) => ({
-      array: f.array ?? input,
-      view,
-      colorMode,
-      colors,
-      showPlane,
-      showLabels,
-    }));
-    return seq;
-  };
 
   return (
     <div className="h-screen overflow-hidden grid grid-rows-[auto_1fr] gap-3 p-3">
@@ -204,14 +204,15 @@ export default function VisualizerPage() {
               fillHeight={false}
             />
           </div>
-          {/* <ExportPanel
+          {/* ExportPanel is currently disabled
+          <ExportPanel
             array={frame.array ?? input}
             view={view}
             colorMode={colorMode}
             colors={colors}
             showPlane={showPlane}
             showLabels={showLabels}
-            framesProvider={framesProvider} // returns FULL timeline
+            framesProvider={framesProvider}
             watermarkUrl={watermarkUrl}
           /> */}
           <div className="min-h-0 flex-1 overflow-auto grid gap-3 content-start">

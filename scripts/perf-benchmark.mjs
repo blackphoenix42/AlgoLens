@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // Node 18+ ESM. Optional Playwright integration.
-import { performance } from "node:perf_hooks";
+import { PerformanceObserver, performance } from "node:perf_hooks";
 import { promises as fs } from "node:fs";
-import { join } from "node:path";
+const now = (globalThis.performance ?? performance).now();
 
 const args = parseArgs(process.argv.slice(2));
 const url = args.url || process.env.PW_BASE_URL || "http://127.0.0.1:4173/";
@@ -10,7 +10,7 @@ const out = args.out || "analysis/perf.json";
 const tries = Number(args.tries || 3);
 
 let usePlaywright = false;
-try { require.resolve("playwright"); usePlaywright = true; } catch { }
+try { require.resolve("playwright"); usePlaywright = true; } catch { /* noop: warm-up errors can be ignored */ }
 
 const runs = [];
 for (let i = 0; i < tries; i++) {
@@ -43,11 +43,11 @@ async function measureWithPlaywright(target) {
 
     // Inject LCP observer
     await page.addInitScript(() => {
-        self.__metrics = { lcp: null };
+        now.__metrics = { lcp: null };
         new PerformanceObserver((list) => {
             const entries = list.getEntries();
             const last = entries[entries.length - 1];
-            if (last) self.__metrics.lcp = last.startTime;
+            if (last) now.__metrics.lcp = last.startTime;
         }).observe({ type: "largest-contentful-paint", buffered: true });
     });
 
@@ -55,7 +55,7 @@ async function measureWithPlaywright(target) {
     await page.goto(target, { waitUntil: "networkidle" });
     const nav = await page.evaluate(() => performance.getEntriesByType("navigation")[0]?.toJSON?.() || null);
     const fcp = await page.evaluate(() => performance.getEntriesByName("first-contentful-paint")[0]?.startTime || null);
-    const lcp = await page.evaluate(() => self.__metrics?.lcp || null);
+    const lcp = await page.evaluate(() => now.__metrics?.lcp || null);
     const bytes = await page.evaluate(() => performance.getEntriesByType("resource").reduce((a, e) => a + (e.transferSize || 0), 0));
     await browser.close();
 

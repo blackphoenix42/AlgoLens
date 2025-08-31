@@ -1,7 +1,8 @@
 import { useState } from 'react'
+
 import type { AlgoMeta } from '@/algorithms/types'
-import Modal from '@/components/ui/Modal'
 import ExpandIcon from '@/components/ui/ExpandIcon'
+import Modal from '@/components/ui/Modal'
 
 export default function ExplainPanel({ meta, explain }: { meta: AlgoMeta; explain?: string }) {
   const [open, setOpen] = useState(false)

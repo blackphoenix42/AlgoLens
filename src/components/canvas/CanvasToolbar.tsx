@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useFullscreen } from "@/hooks/useFullscreen";
+
 import type { ArrayCanvasHandle } from "./ArrayCanvas";
+
+import { useFullscreen } from "@/hooks/useFullscreen";
 
 type Props = {
   surfaceRef: React.RefObject<HTMLDivElement>; // FULLSCREEN targets this whole surface
@@ -39,9 +41,17 @@ export default function CanvasToolbar({
 }: Props) {
   const { isFullscreen, enter, exit } = useFullscreen<HTMLDivElement>();
   const full = () => (isFullscreen ? exit() : enter(surfaceRef.current));
-  const call = (fn: keyof ArrayCanvasHandle) =>
-    (canvasHandle?.current as any)?.[fn]?.();
+  type NoArgKeys = {
+    [K in keyof ArrayCanvasHandle]: ArrayCanvasHandle[K] extends () => void
+      ? K
+      : never;
+  }[keyof ArrayCanvasHandle];
 
+  const call = (fn: NoArgKeys) => {
+    const h = canvasHandle?.current;
+    if (!h) return;
+    h[fn](); // typed as () => void
+  };
   // collapse / expand
   const [open, setOpen] = useState(true);
 
@@ -152,7 +162,7 @@ export default function CanvasToolbar({
             onClick={() => {
               const next = !dragging;
               onDragging(next);
-              (canvasHandle?.current as any)?.setDragEnabled?.(next);
+              canvasHandle?.current?.setDragEnabled(next);
             }}
             aria-pressed={dragging}
             title={dragging ? "Drag: On" : "Drag: Off"}

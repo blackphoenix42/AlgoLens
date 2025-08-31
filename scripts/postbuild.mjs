@@ -8,7 +8,7 @@ const dist = "dist";
 const pkg = JSON.parse(await fs.readFile("package.json", "utf8"));
 const version = pkg.version || "0.0.0";
 let commit = "unknown";
-try { commit = execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim(); } catch { }
+try { commit = execSync("git rev-parse --short HEAD", { stdio: ["ignore", "pipe", "ignore"] }).toString().trim(); } catch { /* noop: postbuild best-effort */ }
 
 await assertExists(dist);
 

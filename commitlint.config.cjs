@@ -1,3 +1,4 @@
+/* eslint-env node */
 /** Conventional Commits rules for commitlint */
 module.exports = {
     extends: ["@commitlint/config-conventional"],

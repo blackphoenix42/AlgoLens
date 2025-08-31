@@ -1,12 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2022",
     "useDefineForClassFields": true,
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
     "jsx": "react-jsx",
@@ -17,13 +13,10 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "baseUrl": ".",
+    "types": ["node", "vite/client", "vitest/globals", "playwright"],
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     }
   },
-  "include": [
-    "src"
-, "bubbleSort.ts"  ]
+  "include": ["src", "bubbleSort.ts"]
 }

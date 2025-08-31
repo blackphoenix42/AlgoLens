@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+
 import { clamp } from "@/lib/clamp";
 
 export function useRunner(total: number, initialSpeed = 1) {
@@ -16,7 +17,7 @@ export function useRunner(total: number, initialSpeed = 1) {
       if (!last.current) last.current = t;
       const dt = (t - last.current) / 1000;
       carry.current += dt * Math.max(0, speed);
-      let steps = Math.floor(carry.current);
+      const steps = Math.floor(carry.current);
       if (steps > 0) {
         carry.current -= steps;
         setIdx((i) => {

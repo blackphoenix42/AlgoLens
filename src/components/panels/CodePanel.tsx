@@ -1,10 +1,10 @@
 // src/components/panels/CodePanel.tsx
-import { useMemo, useState, useEffect } from "react";
 import hljs from "highlight.js/lib/core";
 import cpp from "highlight.js/lib/languages/cpp";
 import java from "highlight.js/lib/languages/java";
-import python from "highlight.js/lib/languages/python";
 import javascript from "highlight.js/lib/languages/javascript";
+import python from "highlight.js/lib/languages/python";
+import { useMemo, useState, useEffect } from "react";
 
 import "highlight.js/styles/github.css";
 import "@/styles/hljs-dark-overrides.css";
@@ -111,7 +111,7 @@ export default function CodePanel({
     onTabChange?.(tab);
   }, [tab, onTabChange]);
 
-  const raw = (meta.code as any)[lang] || "";
+  const raw = (meta.code as Record<string, string>)[lang] ?? "";
   const html = useMemo(
     () => hljs.highlight(raw, { language: lang, ignoreIllegals: true }).value,
     [raw, lang]
@@ -125,7 +125,9 @@ export default function CodePanel({
       await navigator.clipboard.writeText(raw);
       setCopied(true);
       setTimeout(() => setCopied(false), 1200);
-    } catch {}
+    } catch {
+      /* noop */
+    }
   }
 
   return (
