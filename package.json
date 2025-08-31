@@ -7,6 +7,9 @@
     "type": "git",
     "url": "https://github.com/blackphoenix42/AlgoLens.git"
   },
+  "engines": {
+    "node": ">=22.18.0 <23"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

@@ -17,17 +17,17 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      # Use stable LTS to avoid toolchain surprises
-      - name: Use Node (20 LTS)
+      # Keep local + CI in sync via .node-version
+      - name: Use Node (from .node-version)
         uses: actions/setup-node@v4
         with:
-          node-version: "20.16.x"
+          node-version-file: .node-version
           cache: npm
 
-      - name: Install dependencies (clean)
+      - name: npm ci
         run: npm ci
 
-      # Workaround npm optional-deps bug for Rollup on Linux
+      # Workaround npm optional-deps quirk for Rollup on Linux
       - name: Patch Rollup native binary (Linux)
         if: runner.os == 'Linux'
         run: npm i --no-save --no-package-lock @rollup/rollup-linux-x64-gnu@^4
@@ -38,9 +38,9 @@ jobs:
           npm run stylelint --if-present || echo "No stylelint script"
 
       - name: Type check
-        run: npm run typecheck --if-present || npx -y typescript@latest -p tsconfig.json --noEmit
+        run: npm run typecheck --if-present || npx -y typescript -p tsconfig.json --noEmit
 
-      # Ensure vitest is available locally (your repo logs show it's missing)
+      # Ensure Vitest exists even if not in devDeps yet
       - name: Ensure Vitest present
         run: npm ls vitest || npm i --no-save --no-package-lock vitest@^3 @vitest/coverage-v8@^3
 
@@ -50,7 +50,7 @@ jobs:
         run: npx vitest run --coverage
 
       - name: Build (Vite)
-        run: npm run build --if-present || npx -y vite@latest build
+        run: npm run build --if-present || npx -y vite build
 
       - name: Upload coverage
         if: always()
@@ -70,32 +70,31 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Use Node (20 LTS)
+      - name: Use Node (from .node-version)
         uses: actions/setup-node@v4
         with:
-          node-version: "20.16.x"
+          node-version-file: .node-version
           cache: npm
 
-      - name: Install dependencies (clean)
+      - name: npm ci
         run: npm ci
 
-      # Same Rollup workaround for the E2E job
       - name: Patch Rollup native binary (Linux)
         if: runner.os == 'Linux'
         run: npm i --no-save --no-package-lock @rollup/rollup-linux-x64-gnu@^4
 
       - name: Build site
-        run: npm run build --if-present || npx -y vite@latest build
+        run: npm run build --if-present || npx -y vite build
 
       - name: Install Playwright browsers
-        run: npx -y playwright@latest install --with-deps
+        run: npx -y playwright install --with-deps
 
       - name: Start preview server
         run: |
-          npx -y vite@latest preview --port 4173 --strictPort &
-          npx -y wait-on@latest http://127.0.0.1:4173
+          npx -y vite preview --port 4173 --strictPort &
+          npx -y wait-on http://127.0.0.1:4173
 
       - name: Run Playwright tests
         env:
           CI: true
-        run: npx -y playwright@latest test --reporter=dot
+        run: npx -y playwright test --reporter=dot

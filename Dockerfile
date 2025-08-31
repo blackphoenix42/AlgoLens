@@ -1,5 +1,5 @@
 # ---- Build stage ----
-FROM node:20-alpine AS builder
+FROM node:22.18.0-bullseye-slim AS builder
 WORKDIR /app
 
 # Install deps (use npm ci for reproducible builds)
