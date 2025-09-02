@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import { initAnalytics } from "./services/analytics/analytics";
-import { initWebVitals } from "./services/analytics/webvitals";
+import { initWebVitals } from "./services/analytics/webVitals";
 
 import AppRouter from "@/app/router";
 import {
