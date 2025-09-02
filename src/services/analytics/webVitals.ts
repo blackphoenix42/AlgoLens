@@ -1,12 +1,13 @@
-import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
 import * as Sentry from "@sentry/react";
+import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
+
 import { track } from "./analytics";
 
 function send(name: string, value: number, rating: string) {
   // Sentry Metrics (if available)
-  // @ts-ignore
+  // @ts-expect-error Sentry.metrics is not fully typed in @sentry/react
   if (Sentry.metrics?.distribution) {
-    // @ts-ignore
+    // @ts-expect-error distribution method is not included in Sentry.metrics type definition
     Sentry.metrics.distribution(`webvital.${name.toLowerCase()}`, value, {
       tags: { rating },
     });
