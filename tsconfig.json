@@ -16,7 +16,8 @@
     "types": ["node", "vite/client"],
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src", "bubbleSort.ts"],
   "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "tests", "e2e"]
