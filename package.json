@@ -33,7 +33,10 @@
     "lhci:collect": "lhci collect --config=lhci/lighthouserc.json",
     "lhci:assert": "lhci assert --config=lhci/lighthouserc.json",
     "lhci:upload": "lhci upload --config=lhci/lighthouserc.json",
-    "lhci": "npm run build && lhci autorun --config=lhci/lighthouserc.json"
+    "lhci": "npm run build && lhci autorun --config=lhci/lighthouserc.json",
+    "a11y": "pa11y-ci -c pa11y-ci.json",
+    "a11y:report": "pa11y-ci -c pa11y-ci.json --json > reports/a11y/report.json",
+    "a11y:ci": "npm run build && start-server-and-test \"vite preview --port 4173 --strictPort\" http://127.0.0.1:4173 \"npm run a11y\""
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.15",
@@ -43,13 +46,15 @@
     "gif-encoder-2": "^1.0.5",
     "highlight.js": "^11.11.1",
     "katex": "^0.16.22",
+    "posthog-js": "1.261.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.8.2",
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "web-vitals": "4.2.4"
   },
   "devDependencies": {
     "@changesets/cli": "2.29.6",
@@ -85,8 +90,10 @@
     "husky": "9.1.7",
     "jsdom": "26.1.0",
     "lint-staged": "16.1.5",
+    "pa11y-ci": "4.0.1",
     "postcss": "^8.4.41",
     "prettier": "^3.3.3",
+    "start-server-and-test": "2.0.13",
     "tailwindcss": "^4.1.12",
     "typescript": "^5.5.4",
     "typescript-eslint": "8.41.0",

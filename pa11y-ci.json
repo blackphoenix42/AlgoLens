@@ -1,0 +1,22 @@
+{
+  "defaults": {
+    "standard": "WCAG2AA",
+    "timeout": 30000,
+    "wait": 500,
+    "includeNotices": false,
+    "includeWarnings": false,
+    "hideElements": "canvas,[data-ignore-a11y='true']",
+    "chromeLaunchConfig": {
+      "args": ["--no-sandbox", "--disable-dev-shm-usage"]
+    }
+  },
+  "concurrency": 3,
+  "threshold": 0,
+  "urls": [
+    { "url": "http://127.0.0.1:4173/" },
+    { "url": "http://127.0.0.1:4173/sort/bubble?dataset=random&n=50" },
+    { "url": "http://127.0.0.1:4173/sort/quick?dataset=gaussian&n=100" },
+    { "url": "http://127.0.0.1:4173/graph/dijkstra" },
+    { "url": "http://127.0.0.1:4173/404" }
+  ]
+}
