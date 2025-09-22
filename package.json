@@ -46,7 +46,7 @@
     "gif-encoder-2": "^1.0.5",
     "highlight.js": "^11.11.1",
     "katex": "^0.16.22",
-    "posthog-js": "1.261.1",
+    "posthog-js": "1.266.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-markdown": "^10.1.0",
